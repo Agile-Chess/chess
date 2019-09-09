@@ -1,4 +1,6 @@
 Rails.application.configure do
+  # Configuring the mailer so it knows how to build the URLS
+  config.action_mailer.default_url_options = { host: 'https://chess-agile.herokuapp.com'}
   # Settings specified here will take precedence over those in config/application.rb.
 
   # In the development environment your application's code is reloaded on
