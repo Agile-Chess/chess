@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class CreatePieces < ActiveRecord::Migration[5.2]
   def change
-    create_table :pieces, :force => true do |t|
+    create_table :pieces, force: true do |t|
       t.integer :game_id
       t.integer :player_id
       t.integer :x_position

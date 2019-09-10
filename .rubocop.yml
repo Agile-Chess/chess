@@ -1,0 +1,18 @@
+require: rubocop-rails
+
+Rails:
+  Enabled: true
+
+  Include:
+    - Rakefile
+    - config.ru
+  Exclude:
+    - bin/**/*
+    - db/**/*
+    - config/**/*
+    - script/**/*
+    - vendor/**/*
+
+LineLength:
+  Max: 100
+
