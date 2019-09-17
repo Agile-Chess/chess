@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 class GamesController < ApplicationController
 
   def index
@@ -24,3 +25,13 @@ private
     end
 
 end
+=======
+class GamesController < ApplicationController
+
+	def show
+		## @game = Game.find(params[:id])
+
+	end
+
+end
+>>>>>>> 0ce1168d22a70a51e2372aea2bd59e49de923fb8
