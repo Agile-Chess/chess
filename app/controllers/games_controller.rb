@@ -2,7 +2,7 @@
 class GamesController < ApplicationController
 
   def index
-    @game = Game.all
+    @games = Game.where(black_player_id: nil).or(Game.where(white_player_id: nil))
   end
 
     def create
