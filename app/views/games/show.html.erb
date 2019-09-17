@@ -1,0 +1,13 @@
+
+<div class="chessboard">
+
+	<% (0..Game::BOARD_SIZE).each do |row| %>
+		<!-- Start Row -->
+		<% color = (row.even?) ? "white" : "black" %>
+		<% (0..Game::BOARD_SIZE).each do |col| %>
+			<div class="<%= color %>"></div>
+			<% color = (color == "white") ? "black" : "white" %>
+
+		<% end %>
+	<% end %>
+</div>
