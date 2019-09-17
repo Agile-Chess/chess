@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_09_191825) do
+ActiveRecord::Schema.define(version: 2019_09_16_200307) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,11 @@ ActiveRecord::Schema.define(version: 2019_09_09_191825) do
     t.integer "white_player_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "turn"
+    t.string "state"
+    t.index ["black_player_id", "white_player_id"], name: "index_pieces_on_black_and_white_player_id", unique: true
+    t.index ["black_player_id"], name: "index_pieces_on_black_player_id"
+    t.index ["white_player_id"], name: "index_pieces_on_white_player_id"
   end
 
   create_table "pieces", force: :cascade do |t|
@@ -28,9 +33,13 @@ ActiveRecord::Schema.define(version: 2019_09_09_191825) do
     t.integer "player_id"
     t.integer "x_position"
     t.integer "y_position"
-    t.string "piece_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "type"
+    t.string "symbol"
+    t.index ["game_id"], name: "index_pieces_on_game_id"
+    t.index ["player_id", "game_id"], name: "index_pieces_on_player_id_and_game_id", unique: true
+    t.index ["player_id"], name: "index_pieces_on_player_id"
   end
 
   create_table "users", force: :cascade do |t|
