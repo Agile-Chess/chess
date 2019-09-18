@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 class GamesController < ApplicationController
 
   def index
@@ -7,6 +6,7 @@ class GamesController < ApplicationController
 
     def create
     @game = Game.create(game_params)
+      #TODO: populate game pieces
       redirect_to game_path(@game)
     end
 
@@ -25,13 +25,4 @@ private
     end
 
 end
-=======
-class GamesController < ApplicationController
 
-	def show
-		## @game = Game.find(params[:id])
-
-	end
-
-end
->>>>>>> 0ce1168d22a70a51e2372aea2bd59e49de923fb8

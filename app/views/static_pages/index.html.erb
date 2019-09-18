@@ -1,1 +1,9 @@
 <h1>Checkmate!</h1>
+
+<% @games.each do |g| %>
+  <p>
+    <%= g.name %>
+  </p>
+
+  <%= link_to "Join game", g %>
+<% end %>
