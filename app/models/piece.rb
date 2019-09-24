@@ -1,6 +1,13 @@
 class Piece < ApplicationRecord
-  belongs_to :games
 
+  belongs_to :game
+  WHITE = 0
+  BLACK = 1
+  
+  def html_code(color)
+  	nil
+  end
+  
   def is_obstructed?(x_des, y_des)
     pieces_in_row = game.pieces.where(x_pos: x_des)
     pieces_in_column = game.pieces.where(y_pos: y_des)
@@ -17,8 +24,5 @@ class Piece < ApplicationRecord
       raise "Invalid move" if move_type(x_des, y_des) == :invalid
     end
   end
-
-
-
 
 end
