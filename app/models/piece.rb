@@ -2,7 +2,7 @@ class Piece < ApplicationRecord
   MIN_BOARD_SIZE = 0
   MAX_BOARD_SIZE = 7
 
-  belongs_to :game
+  belongs_to :games
   belongs_to :user
 
   # determine if user of piece matches current turn
@@ -37,9 +37,9 @@ class Piece < ApplicationRecord
   end
 
   # placeholder - obstructed_move blocks move
-  def obstructed_move?(x, y)
-    true
-  end
+  # def obstructed_move?(x, y)
+  #   false
+  # end
 
 
 
@@ -50,8 +50,7 @@ class Piece < ApplicationRecord
     return false unless user_owns_piece?
     return false if nil_move?(x, y)
     return false unless move_on_board?(x, y)
-    return false unless legal_move(x, y)
-    return false if obstructed_move?(x, y)
+    return false if is_obstructed?(x, y)
     return false if destination_obstructed?(x, y)
     true
   end

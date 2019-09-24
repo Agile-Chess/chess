@@ -17,7 +17,7 @@ class King < Piece
 
   # either standard_move or castling_move 
   # must be true for move to be legal
-  def legal_move?(x, y)
+  def valid_move?(x, y)
     standard_move?(x, y) || castling_move?(x, y)
   end
   
