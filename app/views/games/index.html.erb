@@ -1,5 +1,6 @@
-<% @games.each do |g| %>
+<% @games.each do |game| %>
   <p>
-    <%= g.name %>
+    <%= game.name %>
   </p>
+  <%= link_to "Join Game", join_game_path(game), method: :put %>
 <% end %>
