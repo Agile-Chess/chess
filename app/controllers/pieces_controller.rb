@@ -1,14 +1,35 @@
 class PiecesController < ApplicationController
 
 def show
-  #TODO: render board with piece highlighted
+  @piece = Piece.find(params[:id])
+  @game = @piece.game
+  render "games/show"
 end
 
+def update
+    @piece = Piece.find(params[:id])
+    @game = @piece.game
 
-def update 
- #TODO: move piece to location
- #TODO: redirect to game
-end
+    if !your_turn?
+      render text: 'It must be your turn',
+             status: :unauthorized
+    else
+      @piece.attempt_move(piece_params)
+      @piece.save 
+      redirect_to game_path @game
+    end
+  end
+
+  private
+
+  def piece_params
+    @piece_params = params.require(:piece).permit(
+      :x_position,
+      :y_position,
+      :type)
+  end
+
+
 
 
 
