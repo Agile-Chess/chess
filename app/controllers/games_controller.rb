@@ -24,5 +24,12 @@ private
       params.require(:game).permit(:name)
     end
 
+  def update
+    if game.valid? && unique_players?
+      game.update_attributes game_params
+      game.assign_pieces
+    return redirect_to game_path game
+  end
+
 end
 
