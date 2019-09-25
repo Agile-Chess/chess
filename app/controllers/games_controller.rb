@@ -25,10 +25,9 @@ private
     end
 
   def update
-    if game.valid? && unique_players?
-      game.update_attributes game_params
+      @piece.update_attributes game_params
       game.assign_pieces
-    return redirect_to game_path game
+      redirect_to game_path game
   end
 
 end
