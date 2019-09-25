@@ -26,7 +26,7 @@ class Piece < ApplicationRecord
       diagonal_blocker?(x_des, y_des)
     else
       raise "Invalid move" if move_type(x_des, y_des) == :invalid
-
+end
   end
 
   # determine if user of piece matches current turn

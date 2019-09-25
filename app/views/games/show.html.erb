@@ -1,21 +1,20 @@
-  <p>
+<p>
     <%= @game.name %>
-  </p>
-
+</p>
 <div class="chessboard">
-
-	<% (0...Game::BOARD_SIZE).each do |x| %>
-		<!-- Start Row -->
-		<% color = (x.even?) ? "white" : "black" %>
-		<% (0...Game::BOARD_SIZE).each do |y| %>
-			<% p = @game.pieces.where(x_position: x, y_position: y).first %>
-			<% if p.nil? %>
-				<div class="<%= color %>"></div>
-			<% else %>
-				<div class="<%= color %>"><%= p.html_code(Piece::BLACK).html_safe %></div>
-			<% end -%>
-			<% color = (color == "white") ? "black" : "white" %>
-
-		<% end %>
-	<% end %>
+    <% (0...Game::BOARD_SIZE).each do |x| %>
+    <!-- Start Row -->
+    <% color = (x.even?) ? "white" : "black" %>
+    <% (0...Game::BOARD_SIZE).each do |y| %>
+    <% p = @game.pieces.where(x_coord: x, y_coord: y).first %>
+    <% if p.nil? %>
+    <div class="<%= color %>"></div>
+    <% else %>
+    <div class="<%= color %>">
+        <%= p.html_code(Piece::BLACK).html_safe %>
+    </div>
+    <% end -%>
+    <% color = (color == "white") ? "black" : "white" %>
+    <% end %>
+    <% end %>
 </div>
