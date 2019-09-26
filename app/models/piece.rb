@@ -1,7 +1,7 @@
 class Piece < ApplicationRecord
 
   MIN_BOARD_SIZE = 0
-  MAX_BOARD_SIZE = 
+  MAX_BOARD_SIZE = 7
   WHITE = 0
   BLACK = 1
 
@@ -26,7 +26,7 @@ class Piece < ApplicationRecord
       diagonal_blocker?(x_des, y_des)
     else
       raise "Invalid move" if move_type(x_des, y_des) == :invalid
-
+    end
   end
 
   # determine if user of piece matches current turn
