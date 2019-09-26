@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_16_200307) do
+ActiveRecord::Schema.define(version: 2019_09_26_202043) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 2019_09_16_200307) do
     t.datetime "updated_at", null: false
     t.string "type"
     t.string "symbol"
+    t.integer "color"
     t.index ["game_id"], name: "index_pieces_on_game_id"
     t.index ["player_id", "game_id"], name: "index_pieces_on_player_id_and_game_id", unique: true
     t.index ["player_id"], name: "index_pieces_on_player_id"
