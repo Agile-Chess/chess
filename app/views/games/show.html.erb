@@ -2,11 +2,11 @@
     <%= @game.name %>
 </p>
 <div class="chessboard">
-    <% (0...Game::BOARD_SIZE).each do |x| %>
+    <% (0..7).each do |y| %>
     <!-- Start Row -->
-    <% color = (x.even?) ? "white" : "black" %>
-    <% (0...Game::BOARD_SIZE).each do |y| %>
-    <% p = @game.pieces.where(x_coord: x, y_coord: y).first %>
+    <% color = (y.even?) ? "white" : "black" %>
+    <% (1..8).each do |x| %>
+    <% p = @game.pieces.where(x_position: x, y_position: y).first %>
     <% if p.nil? %>
     <div class="<%= color %>"></div>
     <% else %>
