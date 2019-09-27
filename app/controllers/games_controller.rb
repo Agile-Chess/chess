@@ -11,7 +11,8 @@ class GamesController < ApplicationController
 
   def create
     @game = Game.new(game_params)
-    #TODO: populate game pieces
+    # TO DO POPULATE GAME
+   
     @game.white_player_id = current_user.id
     @game.black_player_id = nil
     @game.save
@@ -20,10 +21,12 @@ class GamesController < ApplicationController
 
   def show
     @game = Game.find(params[:id])
+    @pieces = @game.pieces
   end
 
   def join
     @game = Game.find(params[:id])
+    @pieces = @game.pieces
     if @game.available_black?
       @game.black_player_id = current_user.id
       @game.save
