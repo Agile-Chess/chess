@@ -46,11 +46,19 @@ class Piece < ApplicationRecord
     (y_des <= MAX_BOARD_SIZE && y_des <= MIN_BOARD_SIZE)  
   end
 
+  def move_to!(new_x, new_y)
+    if destination_obstruction?(new_x, new_y)
+      captured_piece = game.obstruction(new_x, new_y)
+      captured_piece.update_attributes(x_position: nil, y_position: nil)
+    end
+    update_attributes(x_position: new_x, y_position: new_y)
+  end
+
   # determine that obstructing piece not yours
   # determine that captured piece player_id not yours
   # placeholder for process 'obstruction'
   # using piece owner player_id rather than piece color to validate different owners of pieces
-  def capture_move?(x_des, y_des)
+  def captured_move?(x_des, y_des)
     captured_piece = game.obstruction(x_des, y_des)
     captured_piece && captured_piece.player_id != player_id
   end
