@@ -1,12 +1,12 @@
 class Piece < ApplicationRecord
-
+belongs_to :game
+  belongs_to :user, required: false
   MIN_BOARD_SIZE = 0
   MAX_BOARD_SIZE = 7
   WHITE = 0
   BLACK = 1
 
-  belongs_to :game
-  belongs_to :user
+  
 
   def html_code(color)
     nil

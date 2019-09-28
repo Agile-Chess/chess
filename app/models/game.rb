@@ -10,46 +10,46 @@ class Game < ApplicationRecord
 
   def draw_board!
     #Draw White Pawns
-    (0...8).each do |x_coord|
-      Pawn.create(game_id: id, white: true, x_coord: x_coord, y_coord: 7)
+    (0...8).each do |x_position|
+      Pawn.create(game_id: id,  x_position: x_position, y_position: 7)
     end
     #Draw White Rooks
-    [1,8].each do |x_coord|
-      Rook.create(game_id: id, white: true, x_coord: x_coord, y_coord: 8)
+    [1,8].each do |x_position|
+      Rook.create(game_id: id, x_position: x_position, y_position: 8)
     end
     #Draw White Knights
-    [2,7].each do |x_coord|
-      Knight.create(game_id: id, white: true, x_coord: x_coord, y_coord: 8)
+    [2,7].each do |x_position|
+      Knight.create(game_id: id, x_position: x_position, y_position: 8)
     end
     #Draw White Bishops
-    [3,6].each do |x_coord|
-      Bishop.create(game_id: id, white: true, x_coord: x_coord, y_coord: 8)
+    [3,6].each do |x_position|
+      Bishop.create(game_id: id, x_position: x_position, y_position: 8)
     end
     #Draw White King
-    King.create(game_id: id, white: true, x_coord: 4, y_coord: 8)
+    King.create(game_id: id, x_position: 4, y_position: 8)
     #Draw White Queen
-    Queen.create(game_id: id, white: true, x_coord: 5, y_coord: 8)
+    Queen.create(game_id: id, x_position: 5, y_position: 8)
 #Draw Black Pieces
  #Draw Black Pawns
-    (0...8).each do |x_coord|
-      Pawn.create(game_id: id, white: false, x_coord: x_coord, y_coord: 2)
+    (0...8).each do |x_position|
+      Pawn.create(game_id: id, x_position: x_position, y_position: 2)
     end
     #Draw Black Rooks
-    [1,8].each do |x_coord|
-      Rook.create(game_id: id, white: true, x_coord: x_coord, y_coord: 1)
+    [1,8].each do |x_position|
+      Rook.create(game_id: id, x_position: x_position, y_position: 1)
     end
     #Draw Black Knights
-    [2,7].each do |x_coord|
-      Knight.create(game_id: id, white: true, x_coord: x_coord, y_coord: 1)
+    [2,7].each do |x_position|
+      Knight.create(game_id: id, x_position: x_position, y_position: 1)
     end
     #Draw Black Bishops
-    [3,6].each do |x_coord|
-      Bishop.create(game_id: id, white: true, x_coord: x_coord, y_coord: 1)
+    [3,6].each do |x_position|
+      Bishop.create(game_id: id, x_position: x_position, y_position: 1)
     end
     #Draw Black King
-    King.create(game_id: id, white: true, x_coord: 4, y_coord: 1)
+    King.create(game_id: id, x_position: 4, y_position: 1)
     #Draw Black Queen
-    Queen.create(game_id: id, white: true, x_coord: 5, y_coord: 1)
+    Queen.create(game_id: id, x_position: 5, y_position: 1)
 
 
 
