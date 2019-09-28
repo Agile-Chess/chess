@@ -10,7 +10,7 @@ class Game < ApplicationRecord
 
   def draw_board!
     #Draw White Pawns
-    (0...8).each do |x_position|
+    (1..8).each do |x_position|
       Pawn.create(game_id: id,  x_position: x_position, y_position: 7)
     end
     #Draw White Rooks
@@ -31,7 +31,7 @@ class Game < ApplicationRecord
     Queen.create(game_id: id, x_position: 5, y_position: 8)
 #Draw Black Pieces
  #Draw Black Pawns
-    (0...8).each do |x_position|
+    (1..8).each do |x_position|
       Pawn.create(game_id: id, x_position: x_position, y_position: 2)
     end
     #Draw Black Rooks

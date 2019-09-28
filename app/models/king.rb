@@ -2,7 +2,7 @@ class King < Piece
 
 
   def html_code
-    return y_position > 6 ? '&#9812;' : '&#9818;'
+    return y_position >= 6 ? '&#9812;' : '&#9818;'
   end
 
   

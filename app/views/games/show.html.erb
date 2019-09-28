@@ -2,24 +2,25 @@
     <%= @game.name %>
 </p>
 <div class="chessboard">
-    <% (0..7).each do |y_position| %>
-    <!-- Start Row -->
-    <% color = (y_position.even?) ? "white" : "black" %>
-    <% (1..8).each do |x_position| %>
-    <% if piece = @game.pieces.where("(x_position = ? AND y_position = ?)", x_position,y_position).first %>
-    <span>
-        <%= piece.html_code.html_safe %>
-    </span>
-    <% end %>
-    <% if piece.nil? %>
-    <%= puts piece %>
-    <div class="<%= color %>"></div>
-    <% else %>
-    <%= puts piece %>
-    <div class="<%= color %>">
-    </div>
-    <% end %>
-    <% color = (color == "white") ? "black" : "white" %>
-    <% end %>
-    <% end %>
+    <table>
+        <tbody>
+            <% (1..8).each do |y_position| %>
+            <tr id=<%=y_position %>>
+                <% (1..8).each do |x_position| %>
+                <td data-x-coord=<%=x_position %>
+                    data-y-coord =
+                    <%= y_position %> class=
+                    <%= "#{
+                      (y_position % 2 == x_position % 2 ? "white" : "black")}" %>>
+                    <% if piece = @game.pieces.where("(x_position = ? AND y_position = ?)", x_position,y_position).first %>
+                    <span>
+                        <%= piece.html_code.html_safe %>
+                    </span>
+                    <% end %>
+                </td>
+                <% end %>
+            </tr>
+            <% end %>
+        </tbody>
+    </table>
 </div>
