@@ -1,10 +1,11 @@
 class Game < ApplicationRecord
   has_many :pieces
-  # belongs_to :user
+  # has_many :users
   BOARD_SIZE = 8
   
   scope :available_black, -> { where(black_player_id: nil) }
   scope :available_white, -> { where(white_player_id: nil) }
+
 
   def available_black?
     return black_player_id.nil?
@@ -13,7 +14,8 @@ class Game < ApplicationRecord
   def available_white?
     return white_player_id.nil?
   end
-  
+
+
   def populate_game
     return false if white_player_id.nil? || black_player_id.nil?
 

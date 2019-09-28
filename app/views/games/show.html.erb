@@ -4,10 +4,10 @@
 
 <div class="chessboard">
 
-	<% (0...Game::BOARD_SIZE).each do |x| %>
+	<% (0...Game::BOARD_SIZE).each do |y| %>
 		<!-- Start Row -->
-		<% color = (x.even?) ? "white" : "black" %>
-		<% (0...Game::BOARD_SIZE).each do |y| %>
+		<% color = (y.even?) ? "white" : "black" %>
+		<% (0...Game::BOARD_SIZE).each do |x| %>
 			<% p = @game.pieces.where(x_position: x, y_position: y).first %>
 			<% if p.nil? %>
 				<div class="<%= color %>"></div>
