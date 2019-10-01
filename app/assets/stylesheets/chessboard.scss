@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .chessboard {
     width: 640px;
     height: 640px;
@@ -23,4 +24,38 @@
     text-align:center;
     display: table-cell;
     vertical-align:middle;
+=======
+.chessboard {
+    width: 640px;
+    height: 640px;
+    margin: 20px;
+    border: 25px solid #333;
+}
+.black {
+    float: left;
+    width: 80px;
+    height: 80px;
+    background-color: #999;
+      font-size:50px;
+    text-align:center;
+    display: table-cell;
+    vertical-align:middle;
+}
+.white {
+    float: left;
+    width: 80px;
+    height: 80px;
+    background-color: #fff;
+    font-size:50px;
+    text-align:center;
+    display: table-cell;
+    vertical-align:middle;
+}
+
+.pieces {
+    font-size: 46px;
+    font-weight: 300;
+
+
+>>>>>>> 5567b055dbbeff4734e2cb16d9e1ff25da3f9ace
 }
