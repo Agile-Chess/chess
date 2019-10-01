@@ -6,7 +6,7 @@ class Piece < ApplicationRecord
   BLACK = 1
 
   belongs_to :game
-  belongs_to :user
+  # belongs_to :user
 
   def html_code(color)
     nil
