@@ -4,10 +4,10 @@ class Knight < Piece
   	return (color == Piece::WHITE) ? '&#9816;' : '&#9822;'
   end
 
-def valid_move?(new_x_coord, new_y_coord, id = nil, color = nil)
-    x_distance = x_distance(new_x_coord)
-    y_distance = y_distance(new_y_coord)
+def valid_move?(x, y)
+    x_position = x_position(x)
+    y_position = y_position(y)
 
-    (x_distance == 1 && y_distance == 2) || (x_distance == 2 && y_distance == 1)
+    (x_position == 1 && y_position == 2) || (x_position == 2 && y_position == 1)
   end
 end
