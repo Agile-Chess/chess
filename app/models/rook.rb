@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 class Rook < Piece
 
 	  def html_code(color)
