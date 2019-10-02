@@ -70,3 +70,11 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.8'
 
 end
+group :test do
+  gem 'database_cleaner'
+end
+
+group :development, :test do
+  gem 'factory_bot_rails'
+end
+
