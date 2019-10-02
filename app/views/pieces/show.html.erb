@@ -15,7 +15,7 @@
                     <%= "highlighted" if y_position == @piece.y_position && x_position == @piece.x_position %>'>
                     <% if piece = @game.pieces.where("(x_position = ? AND y_position = ?)", x_position,y_position).first %>
                     <span>
-                        <%= link_to piece.html_code.html_safe %>
+                        <%= link_to piece.html_code.html_safe, piece_path(piece) %>
                     </span>
                     <% end %>
                 </td>
