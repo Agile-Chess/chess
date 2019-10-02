@@ -4,4 +4,5 @@ class Bishop < Piece
   	return (color == Piece::WHITE) ? '&#9815;' : '&#9821;'
   end
 
+
 end
