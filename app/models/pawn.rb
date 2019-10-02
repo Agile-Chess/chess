@@ -1,6 +1,3 @@
-# frozen_string_literal: true
-
-# define pawn specific attributes
 class Pawn < Piece
   # sets pieces image
   def html_code(color)
@@ -98,3 +95,4 @@ class Pawn < Piece
     end
   end
 end
+

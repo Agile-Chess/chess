@@ -24,4 +24,3 @@ class King < Piece
     standard_move?(x, y) || castling_move?(x, y)
   end
   
-end
