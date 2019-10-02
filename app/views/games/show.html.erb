@@ -11,8 +11,7 @@
                     data-y-coord=
                     <%= y_position %> class='tile
                     <%= "#{
-                      (y_position % 2 == x_position % 2 ? "white" : "black")}" %>
-                    <%= "highlighted" if y_position == @piece.y_position && x_position == @piece.x_position %>'>
+                      (y_position % 2 == x_position % 2 ? "white" : "black")}" %>'>
                     <% if piece = @game.pieces.where("(x_position = ? AND y_position = ?)", x_position,y_position).first %>
                     <span>
                         <%= link_to piece.html_code.html_safe %>
