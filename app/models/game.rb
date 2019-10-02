@@ -1,23 +1,3 @@
-<<<<<<< HEAD
-class Game < ApplicationRecord
-  has_many :pieces
-  has_many :users
-  BOARD_SIZE = 8
-  
-  scope :available_black, -> { where(black_player_id: nil) }
-  scope :available_white, -> { where(white_player_id: nil) }
-
-  def available_black?
-    return black_player_id.nil?
-  end
-
-  def available_white?
-    return white_player_id.nil?
-  end
-  
-end
-
-=======
 class Game < ApplicationRecord
   after_create :populate_game
   has_many :pieces
@@ -90,5 +70,3 @@ class Game < ApplicationRecord
   end
 
 end
-
->>>>>>> 5567b055dbbeff4734e2cb16d9e1ff25da3f9ace
