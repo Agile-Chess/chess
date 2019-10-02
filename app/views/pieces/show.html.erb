@@ -1,0 +1,24 @@
+  <p>
+    <%= @game.name %>
+  </p>
+
+<div class="chessboard">
+
+  <% (0...Game::BOARD_SIZE).each do |y| %>
+     <!-- Start Row -->
+    <% color = (y.even?) ? "white" : "black" %>
+    <% (0...Game::BOARD_SIZE).each do |x| %>
+    <div class="<%= "highlighted" if y == @piece.y_position && x == @position.x_position %> " >
+    </div>
+      <% p = @game.pieces.where(x_position: x, y_position: y).first %>
+      <% if p.nil? %>
+        <div class="<%= color %>"></div>
+      <% else %>
+        <div class="<%= color %>"><%= link_to p.html_code(Piece::BLACK).html_safe %></div>
+      <% end -%>
+      <% color = (color == "white") ? "black" : "white" %>
+      <span class="overlay"><i class="fa fa-check"></i></span>
+
+    <% end %>
+  <% end %>
+</div>
