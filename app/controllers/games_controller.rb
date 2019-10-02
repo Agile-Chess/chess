@@ -1,22 +1,43 @@
 class GamesController < ApplicationController
+  before_action :authenticate_user!, except: [:index]
 
   def index
     @games = Game.where(black_player_id: nil).or(Game.where(white_player_id: nil))
   end
 
-    def create
-    @game = Game.create(game_params)
-      #TODO: populate game pieces
+  def new
+    @game = Game.new
+  end
+
+  def create
+    @game = Game.new(game_params)
+    
+    @game.white_player_id = current_user.id
+    @game.black_player_id = nil
+    @game.save
+    redirect_to game_path(@game)
+  end
+
+  def show
+    @game = Game.find(params[:id])
+    @pieces = @game.pieces
+  end
+
+  def join
+    @game = Game.find(params[:id])
+    @pieces = @game.pieces
+    if @game.available_black?
+      @game.black_player_id = current_user.id
+      @game.save
+      redirect_to game_path(@game)
+    elsif @game.available_white?
+      @game.white_player_id = current_user.id
+      @game.save
+      redirect_to game_path(@game)
+    else
       redirect_to game_path(@game)
     end
-
-    def new
-      @game = Game.new
-    end
-
-    def show
-      @game = Game.find(params[:id])
-    end
+  end
 
 private 
     
