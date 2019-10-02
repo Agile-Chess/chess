@@ -11,9 +11,9 @@ class GamesController < ApplicationController
 
   def create
     @game = Game.new(game_params)
-    
+
     @game.white_player_id = current_user.id
-    @game.black_player_id = nil
+    @game.black_player_id = current_user.id
     @game.save
     redirect_to game_path(@game)
   end
@@ -39,8 +39,8 @@ class GamesController < ApplicationController
     end
   end
 
-private 
-    
+private
+
     def game_params
       params.require(:game).permit(:name)
     end
