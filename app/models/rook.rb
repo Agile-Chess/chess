@@ -1,13 +1,13 @@
-<<<<<<< HEAD
 class Rook < Piece
 
-	  def html_code(color)
-  	return (color == Piece::WHITE) ? '&#9814;' : '&#9820;'
+  def html_code(color)
+    return (color == Piece::WHITE) ? '&#9814;' : '&#9820;'
   end
 
-    def legal_move?(x, y)
+  def legal_move?(x, y)
     if x<0 or x>7
       return false
+    end
     is_moving_horizontal = horizontal_move x
     is_moving_veritical = veritcal_move y
     return is_moving_horizontal ^ is_moving_vertical

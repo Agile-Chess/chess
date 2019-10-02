@@ -23,4 +23,4 @@ class King < Piece
   def valid_move?(x, y)
     standard_move?(x, y) || castling_move?(x, y)
   end
-  
+end  
