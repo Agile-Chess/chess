@@ -2,20 +2,74 @@
     <%= @game.name %>
 </p>
 <div class="chessboard">
-    <% (0...Game::BOARD_SIZE).each do |y| %>
+    <% (0...Game::BOARD_SIZE).each do |y_position| %>
     <!-- Start Row -->
-    <% color = (y.even?) ? "white" : "black" %>
-    <% (0...Game::BOARD_SIZE).each do |x| %>
-    <% p = @game.pieces.where(x_position: x, y_position: y).first %>
-    <% if p.nil? %>
-    <div class="<%= color %>"></div>
-    <% else %>
-    <div class="<%= color %>">
-        <%= p.html_code(Piece::BLACK).html_safe %>
+    <div id=<%=y_position%>>
+        <% color = (y_position.even?) ? "white" : "black" %>
+        <% (0...Game::BOARD_SIZE).each do |x_position| %>
+        <td data-x-coord=<%=x_position %> data-y-coord=
+            <%=y_position%> class=
+            <%="#{(y_position % 2 == x_position % 2 ? "white-square droppable-square" : "black-square droppable-square")}" %> >
+            <% p = @game.pieces.where(x_position: x_position, y_position: y_position).first %>
+            <% if p.nil? %>
+            <div class="<%= color %>"></div>
+            <% else %>
+            <div class="<%= color %>">
+                <div class="selectable-piece" id="<%=p.id%>">
+                    <%= p.html_code(Piece::BLACK).html_safe %>
+                </div>
+            </div>
+            <% end %>
+            <% color = (color == "white") ? "black" : "white" %>
+        </td>
+        <% end %>
     </div>
-    <% end -%>
-    <% color = (color == "white") ? "black" : "white" %>
-    <span class="overlay"><i class="fa fa-check"></i></span>
-    <% end %>
     <% end %>
 </div>
+<script>
+$(function() {
+    $("td").addClass("droppable-square");
+    $(".selectable-piece").draggable({
+        cancel: "a.ui-icon", //clicking an icon won't initiate dragging
+        revert: "invalid",
+        containment: "document",
+        snap: ".document td",
+        snapTolerance: 20,
+        helper: "clone",
+        cursor: "move"
+    });
+    $(".droppable-square").droppable({
+        accept: ".selectable-piece",
+        tolerance: "pointer",
+        classes: {
+            "ui-droppable-active": "ui-state-active",
+            "ui-droppable-hover": "ui-state-hover"
+        },
+        drop: function(event, ui) {
+            const $newDroppableSquare = $(this)
+            $.ajax({
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader('X-CRSF-Token', $('meta[name="csrf-token"]').attr('content'))
+                },
+                type: "PATCH",
+                dataType: 'text',
+                url: "/pieces/" + ui.draggable.attr('id'),
+                data: {
+                    piece: {
+                        x_position: $(this).data("x_position"),
+                        y_position: $(this).data("y_position")
+                    },
+                },
+                error: function(xhr) {
+                    var errorMessage = $.parseJSON(xhr.responseText).message
+                    var alertClass = $.parseJSON(xhr.responseText).class$("#alert_msg").addClass(alertClass)
+                    $("#alert_msg").html('<p>' + errorMessage + '<p>')
+                },
+                success: function() {
+                    $newDroppableSquare.append($(ui.draggable));
+                }
+            });
+        }
+    });
+});
+</script>
