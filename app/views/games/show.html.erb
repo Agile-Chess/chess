@@ -4,10 +4,10 @@
 <div class="chessboard">
     <% (0...Game::BOARD_SIZE).each do |y_position| %>
     <!-- Start Row -->
-    <div id=<%=y_position%>>
+    <div class=<%=y_position%>>
         <% color = (y_position.even?) ? "white" : "black" %>
         <% (0...Game::BOARD_SIZE).each do |x_position| %>
-        <td data-x-coord=<%=x_position %> data-y-coord=
+        <data data-x-coord=<%=x_position %> data-y-coord=
             <%=y_position%> class=
             <%="#{(y_position % 2 == x_position % 2 ? "white-square droppable-square" : "black-square droppable-square")}" %> >
             <% p = @game.pieces.where(x_position: x_position, y_position: y_position).first %>
@@ -15,49 +15,57 @@
             <div class="<%= color %>"></div>
             <% else %>
             <div class="<%= color %>">
-                <div class="selectable-piece" id="<%=p.id%>">
+                <span class="selectable-piece" data-id="<%=p.id%>">
                     <%= p.html_code(Piece::BLACK).html_safe %>
-                </div>
+                </span>
             </div>
             <% end %>
             <% color = (color == "white") ? "black" : "white" %>
-        </td>
+        </data>
         <% end %>
     </div>
     <% end %>
 </div>
 <script>
 $(function() {
-    $("td").addClass("droppable-square");
+
+    $("data").addClass("droppable-square");
     $(".selectable-piece").draggable({
         cancel: "a.ui-icon", //clicking an icon won't initiate dragging
         revert: "invalid",
         containment: "document",
-        snap: ".document td",
+        snap: ".document data",
         snapTolerance: 20,
         helper: "clone",
         cursor: "move"
+
     });
     $(".droppable-square").droppable({
+
         accept: ".selectable-piece",
         tolerance: "pointer",
         classes: {
             "ui-droppable-active": "ui-state-active",
             "ui-droppable-hover": "ui-state-hover"
         },
+
         drop: function(event, ui) {
+
             const $newDroppableSquare = $(this)
             $.ajax({
                 beforeSend: function(xhr) {
+
                     xhr.setRequestHeader('X-CRSF-Token', $('meta[name="csrf-token"]').attr('content'))
                 },
                 type: "PATCH",
                 dataType: 'text',
                 url: "/pieces/" + ui.draggable.attr('id'),
+
                 data: {
                     piece: {
                         x_position: $(this).data("x_position"),
                         y_position: $(this).data("y_position")
+
                     },
                 },
                 error: function(xhr) {
