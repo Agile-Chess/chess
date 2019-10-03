@@ -4,7 +4,7 @@
 
 <div class="chessboard">
 
-	<% (0...Game::BOARD_SIZE).each do |y| %>
+	<% (0...6).each do |y| %>
 		 <!-- Start Row -->
 		<% color = (y.even?) ? "white" : "black" %>
 		<% (0...Game::BOARD_SIZE).each do |x| %>
@@ -12,11 +12,26 @@
 			<% if p.nil? %>
 				<div class="<%= color %>"></div>
 			<% else %>
-				<div class="<%= color %>"><%= p.html_code(Piece::BLACK).html_safe %></div>
-			<% end -%>
+				<div class="<%= color %>">					
+				<%= link_to p.html_code(Piece::WHITE).html_safe, game_piece_path(p), class: "game_piece_wh" %>
+				</div>
+			<% end %>
 			<% color = (color == "white") ? "black" : "white" %>
-			<span class="overlay"><i class="fa fa-check"></i></span>
-
+		<% end %>
+	<% end %>
+	<% (6...8).each do |y| %>
+		 <!-- Start Row -->
+		<% color = (y.even?) ? "white" : "black" %>
+		<% (0...Game::BOARD_SIZE).each do |x| %>
+			<% p = @game.pieces.where(x_position: x, y_position: y).first %>
+			<% if p.nil? %>
+				<div class="<%= color %>"></div>
+			<% else %>
+				<div class="<%= color %>">					
+				<%= link_to p.html_code(Piece::BLACK).html_safe, game_piece_path(p), class: "game_piece_bl" %>
+				</div>
+			<% end %>
+			<% color = (color == "white") ? "black" : "white" %>
 		<% end %>
 	<% end %>
 </div>

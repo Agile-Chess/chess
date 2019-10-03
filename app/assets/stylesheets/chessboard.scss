@@ -8,8 +8,9 @@
     float: left;
     width: 80px;
     height: 80px;
-    background-color: #999;
-      font-size:50px;
+    background-color: grey;
+    color: white;
+    font-size:50px;
     text-align:center;
     display: table-cell;
     vertical-align:middle;
@@ -19,6 +20,7 @@
     width: 80px;
     height: 80px;
     background-color: #fff;
+    color: black;
     font-size:50px;
     text-align:center;
     display: table-cell;
@@ -30,29 +32,12 @@
     font-weight: 300;
 }
 
-
-.white span{
-    overlay: 0;
-    position:absolute;
-    display:block;
-    transition: all 0.5s ease;
-    background-color: transparent;
+.game_piece_wh {
+    background-color: inherit;
+    color: black;
 }
 
-.white:hover span{
-    opacity: 1;
-    background-color: green;
-}
-
-.black span{
-    overlay: 0;
-    position:absolute;
-    display:block;
-    transition: all 0.5s ease;
-    background-color: transparent;
-}
-
-.black:hover span{
-    opacity: 1;
-    background-color: green;
+.game_piece_bl {
+    background-color: inherit;
+    color: black;
 }

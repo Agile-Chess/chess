@@ -1,7 +1,7 @@
 class Game < ApplicationRecord
   after_create :populate_game
   has_many :pieces
-  # has_many :users
+  has_many :users
   BOARD_SIZE = 8
 
   scope :available_black, -> { where(black_player_id: nil) }
