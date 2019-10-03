@@ -9,4 +9,3 @@ def valid_move?(new_x_coord, new_y_coord, id = nil, color = nil)
 
     (x_position == 1 && y_position == 2) || (x_position == 2 && y_position == 1)
   end
-end
