@@ -16,7 +16,7 @@
             <% else %>
             <div class="<%= color %>">
                 <span class="selectable-piece" data-id="<%=p.id%>">
-                    <%= p.html_code(Piece::BLACK).html_safe %>
+                    <%=  p.html_code(Piece::BLACK).html_safe %>
                 </span>
             </div>
             <% end %>
