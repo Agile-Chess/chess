@@ -80,5 +80,4 @@ class Piece < ApplicationRecord
     return false if destination_obstructed?(x_des, y_des)
     true
   end
-
 end

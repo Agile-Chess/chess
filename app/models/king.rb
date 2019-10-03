@@ -1,6 +1,5 @@
 class King < Piece
 
-
   def html_code(color)
     return (color == Piece::WHITE) ? '&#9812;' : '&#9818;'
   end
@@ -24,5 +23,4 @@ class King < Piece
   def valid_move?(x, y)
     standard_move?(x, y) || castling_move?(x, y)
   end
-  
-end
+end  

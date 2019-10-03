@@ -1,8 +1,9 @@
 class Game < ApplicationRecord
+  after_create :populate_game
   has_many :pieces
   # has_many :users
   BOARD_SIZE = 8
-  
+
   scope :available_black, -> { where(black_player_id: nil) }
   scope :available_white, -> { where(white_player_id: nil) }
 
@@ -49,7 +50,7 @@ class Game < ApplicationRecord
         x_position: i,
         y_position: 6,
         player_id: black_player_id,
-        color: Piece::BLACK 
+        color: Piece::BLACK
         )
     end
 
@@ -69,4 +70,3 @@ class Game < ApplicationRecord
   end
 
 end
-
