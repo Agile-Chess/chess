@@ -57,13 +57,13 @@ end
 
   def tile_color(x,y)
     if y.odd? && x.odd?
-      "black droppable"
+      "black"
     elsif y.odd? && x.even?
-      "white droppable"
+      "white"
     elsif y.even? && x.odd?
-      "white droppable"
+      "white"
     elsif y.even? && x.even?
-      "black droppable"
+      "black"
     end
     
   end

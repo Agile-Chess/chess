@@ -1,3 +1,6 @@
+<div id='mydiv' style='display:none'>
+    TEST
+</div>
 <p>
     <%= @game.name %>
 </p>
@@ -6,42 +9,81 @@
     <% (1..8).each do |x| %>
     <%  piece = @game.pieces.where("(x_position = ? AND y_position = ?)", x,y).first %>
     <% if piece.nil? %>
-    <div class="<%= @game.tile_color(x,y)%>"></div>
+    <div class="droppable  <%= @game.tile_color(x,y)%>" data-x-coord=<%=x %> data-y-coord =
+        <%= y %>></div>
     <% else %>
-    <div class="<%= @game.tile_color(x,y)%>">
-        <span id="<%= piece.id %>">
-            <%=  piece.html_code.html_safe %></span>
+    <div class="droppable <%= @game.tile_color(x,y)%>" data-x-coord=<%=x %> data-y-coord =
+        <%= y %>>
+        <div class="piece " data-piece-id="<%= piece.id %>" data-position-x=<% x %> data-position-y
+            <%= y %>>
+            <%=  piece.html_code.html_safe %>
+        </div>
     </div>
     <% end %>
     <% end %>
     <% end %>
-    <br />
-    <script>
-    </script>
-    <%
+</div>
+<br />
+<script>
+$(document).ready(function() {
+    $('.piece').draggable({
+        revert: "invalid"
+    });
+    $('.droppable').droppable({
+        tolerance: 'fit',
+        drop: function(event, ui) {
+            $(this)
+                .addClass("ui-state-highlight")
+                .find('.droppable')
+        }
+    });
+
+});
+</script>
+<%
+=begin %>
+let id = $('.chessboard').attr('id');
+$.ajax({
+url: '/pieces/' + ui.draggable.attr('id'),
+type: 'PUT',
+data: {
+piece: {
+x_coord: $(this).data(x),
+y_coord: $(this).data(y)
+},
+}
+dataType: 'json',
+success: function(result) {
+alert("posted");
+}
+});
+<%
+    =end %>
+</script>
+<%
 =begin%>
-    <div class="chessboard">
-        <table>
-            <tbody>
-                <% (1..8).each do |y_position| %>
-                <tr id=<%=y_position %>>
-                    <% (1..8).each do |x_position| %>
-                    <td data-x-coord=<%=x_position %>
-                        data-y-coord=
-                        <%= y_position %> class='tile
-                        <%= "#{
+<div class="chessboard">
+    <table>
+        <tbody>
+            <% (1..8).each do |y_position| %>
+            <tr id=<%=y_position %>>
+                <% (1..8).each do |x_position| %>
+                <td data-x-coord=<%=x_position %>
+                    data-y-coord=
+                    <%= y_position %> class='tile
+                    <%= "#{
                       (y_position % 2 == x_position % 2 ? "white" : "black")}" %>'>
-                        <% if piece = @game.pieces.where("(x_position = ? AND y_position = ?)", x_position,y_position).first %>
-                        <span>
-                            <%=  piece.html_code.html_safe %>
-                        </span>
-                        <% end %>
-                    </td>
+                    <% if piece = @game.pieces.where("(x_position = ? AND y_position = ?)", x_position,y_position).first %>
+                    <span>
+                        <%=  piece.html_code.html_safe %>
+                    </span>
                     <% end %>
-                </tr>
+                </td>
                 <% end %>
-            </tbody>
-        </table>
-    </div>
-    <%
+            </tr>
+            <% end %>
+        </tbody>
+    </table>
+</div>
+<%
 =end %>
