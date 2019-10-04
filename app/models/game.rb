@@ -31,9 +31,9 @@ class Game < ApplicationRecord
     Queen.create(game_id: id, x_position: 5, y_position: 8)
 #Draw Black Pieces
  #Draw Black Pawns
-    (1..8).each do |x_position|
-      Pawn.create(game_id: id, x_position: x_position, y_position: 2)
-    end
+ (1..8).each do |x_position|
+  Pawn.create(game_id: id, x_position: x_position, y_position: 2)
+end
     #Draw Black Rooks
     [1,8].each do |x_position|
       Rook.create(game_id: id, x_position: x_position, y_position: 1)
@@ -54,6 +54,22 @@ class Game < ApplicationRecord
 
 
   end
+
+  def tile_color(x,y)
+    if y.odd? && x.odd?
+      "black droppable"
+    elsif y.odd? && x.even?
+      "white droppable"
+    elsif y.even? && x.odd?
+      "white droppable"
+    elsif y.even? && x.even?
+      "black droppable"
+    end
+    
+  end
+
+  
+
 
   def available_black?
     return black_player_id.nil?

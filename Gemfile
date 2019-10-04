@@ -70,3 +70,9 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.8'
 
 end
+
+gem 'jquery-rails'
+gem 'jquery-ui-rails', '~> 5.0.5'
+
+
+####
