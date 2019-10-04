@@ -2,36 +2,54 @@
     <%= @game.name %>
   </p>
 
+<script>
+	$(document).ready(function() {
+		$( '.game_piece' ).draggable({
+			helper: 'clone'
+		});
+		$( '.squares' ).droppable({
+			drop: function( event, ui ) {
+				$('.squares').append(ui.draggable);
+			// update: function( event, ui ) {
+	  //  		$.ajax({
+	  //       type: 'PUT',
+	  //       url: ui.item.data('update-url'),
+	  //       dataType: 'json',
+	  //       data: { @pieces: { x_position, y_position: ui.item.index() } }
+	  //     });
+
+				alert( "dropped" );
+			}
+		});
+	});
+</script>
+
+<br />
+
+
 <div class="chessboard">
 
-	<% (0...6).each do |y| %>
+	<% (0...Game::BOARD_SIZE).each do |y| %>
 		 <!-- Start Row -->
 		<% color = (y.even?) ? "white" : "black" %>
 		<% (0...Game::BOARD_SIZE).each do |x| %>
-			<% p = @game.pieces.where(x_position: x, y_position: y).first %>
-			<% if p.nil? %>
-				<div class="<%= color %>"></div>
-			<% else %>
-				<div class="<%= color %>">					
-				<%= link_to p.html_code(Piece::WHITE).html_safe, game_piece_path(p), class: "game_piece_wh" %>
-				</div>
-			<% end %>
-			<% color = (color == "white") ? "black" : "white" %>
-		<% end %>
-	<% end %>
-	<% (6...8).each do |y| %>
-		 <!-- Start Row -->
-		<% color = (y.even?) ? "white" : "black" %>
-		<% (0...Game::BOARD_SIZE).each do |x| %>
-			<% p = @game.pieces.where(x_position: x, y_position: y).first %>
-			<% if p.nil? %>
-				<div class="<%= color %>"></div>
-			<% else %>
-				<div class="<%= color %>">					
-				<%= link_to p.html_code(Piece::BLACK).html_safe, game_piece_path(p), class: "game_piece_bl" %>
-				</div>
-			<% end %>
+			<div class="squares">
+				<% p = @game.pieces.where(x_position: x, y_position: y).first %>
+				<% if p.nil? %>
+					<div class="<%= color %>"></div>
+				<% else %>
+					<div class="<%= color %>">	
+						<% if p.color == 0 %>				
+							<%= link_to p.html_code(Piece::WHITE).html_safe, game_piece_path(p), class: "game_piece" %> 
+						<% else %>
+							<%= link_to p.html_code(Piece::BLACK).html_safe, game_piece_path(p), class: "game_piece" %>
+						<% end %>
+						data-update-url="<%= piece_path(@pieces) %>"	
+					</div>
+				<% end %>
+			</div>	
 			<% color = (color == "white") ? "black" : "white" %>
 		<% end %>
 	<% end %>
 </div>
+
