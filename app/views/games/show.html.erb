@@ -9,12 +9,12 @@
     <% (1..8).each do |x| %>
     <%  piece = @game.pieces.where("(x_position = ? AND y_position = ?)", x,y).first %>
     <% if piece.nil? %>
-    <div class="droppable  <%= @game.tile_color(x,y)%>" data-x-coord=<%=x %> data-y-coord =
+    <div class="droppable ui-widget-header <%= @game.tile_color(x,y)%>" data-x_coord=<%=x %> data-y_coord =
         <%= y %>></div>
     <% else %>
-    <div class="droppable <%= @game.tile_color(x,y)%>" data-x-coord=<%=x %> data-y-coord =
+    <div class="droppable ui-widget-header <%= @game.tile_color(x,y)%>" data-x_coord=<%=x %> data-y_coord =
         <%= y %>>
-        <div class="piece " data-piece-id="<%= piece.id %>" data-position-x=<% x %> data-position-y
+        <div class="piece " data-piece-id="<%= piece.id %>" data-x_coord=<%=x %> data-y_coord=
             <%= y %>>
             <%=  piece.html_code.html_safe %>
         </div>
@@ -26,18 +26,47 @@
 <br />
 <script>
 $(document).ready(function() {
+    let getGameData = async () => {
+        let id = $('.piece').attr('data-piece-id');
+        $.getJSON(id).success((data) => {
+            parseState(data);
+        });
+    };
+    let updatePieceData = () => {
+        let data = {
+            piece: {
+                id: data - piece - id,
+                x_coord: data - x_coord,
+                y_coord: data - y_coord
+            }
+        }
+        let id = $('.piece').attr('data-piece-id');
+        $.ajax({
+            url: '/pieces/' + id,
+            type: 'PUT',
+            data: data,
+            dataType: 'json',
+            success: function(result) {
+                alert("posted");
+            }
+        });
+    }
+
+    getGameData();
+
     $('.piece').draggable({
         revert: "invalid"
     });
     $('.droppable').droppable({
-        tolerance: 'fit',
-        drop: function(event, ui) {
-            $(this)
-                .addClass("ui-state-highlight")
-                .find('.droppable')
+        drop: (e, ui) => {
+            e.target.innerHTML = `<div class="piece">${ui.draggable.html()}</div>`;
+            ui.draggable.remove();
+            $('.piece').draggable({
+                revert: "invalid"
+            });
+            updatePieceData();
         }
-    });
-
+    })
 });
 </script>
 <%
