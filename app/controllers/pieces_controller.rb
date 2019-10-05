@@ -15,8 +15,8 @@ def update
       render text: 'It must be your turn',
              status: :unauthorized
     else
-      @piece.attempt_move(piece_params)
-      @piece.save 
+      @piece.move_to!(params[:x_position], params[:y_position])
+      @piece.save
       redirect_to game_path @game
     end
   end
