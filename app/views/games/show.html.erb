@@ -7,6 +7,9 @@
 		$( '.game_piece' ).draggable({
 			helper: 'clone'
 		});
+		$( '.game_piece' ).draggable({
+			grid: [ 80, 80 ]
+		});
 		$( '.squares' ).droppable({
 			drop: function( event, ui ) {
 				$('.squares').append(ui.draggable);
@@ -17,7 +20,6 @@
 	  //       dataType: 'json',
 	  //       data: { @pieces: { x_position, y_position: ui.item.index() } }
 	  //     });
-
 				alert( "dropped" );
 			}
 		});
@@ -52,4 +54,3 @@
 		<% end %>
 	<% end %>
 </div>
-

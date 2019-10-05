@@ -28,6 +28,11 @@ class PiecesController < ApplicationController
     render plain: 'updated!'
   end
 
+  def find_piece
+    @piece = Piece.find(params[:id])
+    @game = @piece.game
+  end
+
   private
 
   def piece_params
