@@ -79,6 +79,27 @@ class Pawn < Piece
     end
   end
 
+  def en_passant_available?(x_des, y_des)
+    y_chg = (y_des - y_position)
+    x_chg = (x_des - x_position)
+    if (first_move_pawn true) && (y_chg.positive && y_chg < 3) && (move_forward_two? true)
+      return true
+    else
+      return false
+    end
+  end
+
+  def en_passant_capture?(x_des, y_des)
+    y_chg = (y_des - y_position).abs
+    x_chg = (x_des - x_position).abs
+    if move_type(x_des, y_des) == :diagonal &&
+      (x_chg && y_chg == 1) &&
+      (captured_move? true)
+    elsif en_passant_available? == true
+      (captured_move? true)
+    end
+  end
+
   # placeholder for promotion move option
   def promotion_move?(_x_des, _y_des)
     false
@@ -95,4 +116,3 @@ class Pawn < Piece
     end
   end
 end
-
