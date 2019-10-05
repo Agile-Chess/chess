@@ -9,10 +9,10 @@
     <% (1..8).each do |x| %>
     <%  piece = @game.pieces.where("(x_position = ? AND y_position = ?)", x,y).first %>
     <% if piece.nil? %>
-    <div class="droppable ui-widget-header <%= @game.tile_color(x,y)%>" data-x_coord=<%=x %> data-y_coord =
+    <div class="droppable <%= @game.tile_color(x,y)%>" data-x_coord=<%=x %> data-y_coord =
         <%= y %>></div>
     <% else %>
-    <div class="droppable ui-widget-header <%= @game.tile_color(x,y)%>" data-x_coord=<%=x %> data-y_coord =
+    <div class="droppable <%= @game.tile_color(x,y)%>" data-x_coord=<%=x %> data-y_coord =
         <%= y %>>
         <div class="piece " data-piece-id="<%= piece.id %>" data-x_coord=<%=x %> data-y_coord=
             <%= y %>>
