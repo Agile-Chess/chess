@@ -5,12 +5,11 @@ class Piece < ApplicationRecord
   WHITE = 0
   BLACK = 1
 
+
   belongs_to :game
   # belongs_to :user
 
-  def html_code(color)
-    nil
-  end
+  
 
   def is_obstructed?(x_des, y_des)
     pieces_in_row = game.pieces.where(x_position: x_des)

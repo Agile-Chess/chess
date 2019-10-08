@@ -1,8 +1,6 @@
 class Pawn < Piece
-  # sets pieces image
-  def html_code(color)
-    color == Piece::WHITE ? '&#9817;' : '&#9823;'
-  end
+ 
+ 
 
   # has piece been previously moved
   def first_move_pawn?
