@@ -14,7 +14,7 @@
     <% else %>
     <div class="droppable <%= @game.tile_color(x,y)%>" data-x_coord=<%=x %> data-y_coord =
         <%= y %>>
-        <div class="piece " data-piece-id ="<%= piece.id %>" data-x_coord=<%=x %> data-y_coord =
+        <div class="piece " data-piece-id="<%= piece.id %>" data-x_coord=<%=x %> data-y_coord =
             <%= y %>>
             <%=  piece.html_code.html_safe %>
         </div>
@@ -26,44 +26,33 @@
 <br />
 <script>
 $(document).ready(function() {
-    let getGameData = async () => {
-        let id = $('.piece').attr('data-piece-id');
-        $.getJSON(id).success((data) => {
-            parseState(data);
-        });
-    };
-    let updatePieceData = () => {
-        let data = {
-            piece: {
-                id: data - piece - id,
-                x_coord: data - x_coord,
-                y_coord: data - y_coord
-            }
-        }
-        let id = $('.piece').attr('data-piece-id');
-        $.ajax({
-            url: '/pieces/' + id,
-            type: 'PUT',
-            data: data,
-            dataType: 'json',
-            success: function(result) {
-                alert("posted");
-            }
-        });
-    }
-    getGameData();
     $('.piece').draggable({
-        revert: "invalid"
+        snap: '.droppable',
+        revert: 'invalid'
     });
+
     $('.droppable').droppable({
-        drop: (e, ui) => {
-            e.target.innerHTML = `<div class="piece">${ui.draggable.html()}</div>`;
-            ui.draggable.remove();
-            $('.piece').draggable({
-                revert: "invalid"
+        drop: function(event, ui) {
+            var piece = ui.draggable
+            var destination_square = $(this);
+            var update_piece = {
+                id: piece.data('piece-id'),
+                x_position: destination_square.data('x_coord'),
+                y_position: destination_square.data('y_coord'),
+            }
+
+            $.ajax({
+                type: 'PATCH',
+                url: '/pieces/' + update_piece.id,
+                beforeSend: function(xhr) { xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content')) },
+                dataType: 'json',
+                data: { piece_id: update_piece.id, x_position: update_piece.x_postion, y_position: update_piece.y_position },
+                success: function(data) {
+                    destination_square.empty();
+                    location.reload(true);
+                }
             });
-            updatePieceData();
         }
-    })
+    });
 });
 </script>

@@ -2,9 +2,10 @@
 
 # Pieces controller to manage activities
 class PiecesController < ApplicationController
-  before_action :find_piece, :verify_two_players, :verify_player_turn,
-                :verify_valid_move
-  before_action :require_authorized_for_current_piece, only: [:update]
+ # before_action :find_piece,
+  #before_action :verify_two_players, :verify_player_turn,
+ # before_action :verify_valid_move
+ # before_action :require_authorized_for_current_piece, only: [:update]
 
   def show
     @piece = Piece.find(params[:id])
@@ -15,39 +16,51 @@ class PiecesController < ApplicationController
   def update
     @piece = Piece.find(params[:id])
     @game = @piece.game
+    x_path = @piece.x_position
+    y_path = @piece.y_position
+    
+      @piece.update(piece_params)
+      respond_to do |format|
+        format.html {render :show }
+        format.json { render json: @piece, status: :ok }
+      end
+     
 
-    if !your_turn?
-      render text: 'It must be your turn',
-             status: :unauthorized
-    else
-      @piece.attempt_move(piece_params)
-      @piece.save
-      redirect_to game_path @game
-    end
-    current_piece.update_attributes(piece_params)
-    render plain: 'updated!'
+   # if !your_turn?
+    #  render text: 'It must be your turn',
+    #  status: :unauthorized
+    
+
   end
+  
 
-  def find_piece
-    @piece = Piece.find(params[:id])
-    @game = @piece.game
-  end
 
-  private
 
-  def piece_params
-    @piece_params = params.require(:piece).permit(
-      :x_position, :y_position, :type, :color
+private
+
+def find_piece
+  @piece = Piece.find(params[:id])
+  @game = @piece.game
+
+end
+
+def verify_valid_move
+  return if @piece.valid_move?(x_position,y_position)
+end
+
+def piece_params
+   params.permit(
+    :x_position, :y_position, :type, :color
     )
-  end
+end
 
-  def current_piece
-    @current_piece ||= piece.find(params[:id])
-  end
+def current_piece
+  @current_piece ||= piece.find(params[:id])
+end
 
-  def require_authorized_for_current_piece
-    return unless current_piece.game.user != current_user
+def require_authorized_for_current_piece
+  return unless current_piece.game.user != current_user
 
-    render plain: 'unauthorized', status: :unauthorized
-  end
+  render plain: 'unauthorized', status: :unauthorized
+end
 end

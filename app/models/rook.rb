@@ -1,7 +1,7 @@
 class Rook < Piece
 
   def html_code
-    return y_position > 6 ? '&#9814;' : '&#9820;'
+    return y_position > 5  ? '&#9814;' : '&#9820;'
   end
 
   def legal_move?(x, y)
