@@ -1,9 +1,6 @@
 class King < Piece
 
-  def html_code
-    return y_position > 5 ? '&#9812;' : '&#9818;'
-  end
-
+  
   
   # allowed base move for king 
   def standard_move?(x, y)

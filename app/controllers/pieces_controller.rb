@@ -10,6 +10,7 @@ class PiecesController < ApplicationController
   def show
     @piece = Piece.find(params[:id])
     @game = @piece.game
+    @pieces = @game.pieces
     render 'games/show'
   end
 
@@ -24,7 +25,7 @@ class PiecesController < ApplicationController
         format.html {render :show }
         format.json { render json: @piece, status: :ok }
       end
-     
+
 
    # if !your_turn?
     #  render text: 'It must be your turn',
@@ -50,7 +51,7 @@ end
 
 def piece_params
    params.permit(
-    :x_position, :y_position, :type, :color
+    :id, :x_position, :y_position, :type, :color, :html_code, :symbol
     )
 end
 

@@ -9,9 +9,7 @@ class Piece < ApplicationRecord
   belongs_to :game
   # belongs_to :user
 
-  def html_code
-    nil
-  end
+  
 
   def is_obstructed?(x_des, y_des)
     pieces_in_row = game.pieces.where(x_position: x_des)
