@@ -1,3 +1,4 @@
+
 # frozen_string_literal: true
 
 # Pieces controller to manage activities
@@ -39,29 +40,30 @@ class PiecesController < ApplicationController
 
 private
 
-def find_piece
-  @piece = Piece.find(params[:id])
-  @game = @piece.game
+  def find_piece
+    @piece = Piece.find(params[:id])
+    @game = @piece.game
 
+  end
+
+  def verify_valid_move
+    return if @piece.valid_move?(x_position,y_position)
+  end
+
+  def piece_params
+     params.permit(
+      :id, :x_position, :y_position, :type, :color, :html_code, :symbol
+      )
+  end
+
+  def current_piece
+    @current_piece ||= piece.find(params[:id])
+  end
+
+  def require_authorized_for_current_piece
+    return unless current_piece.game.user != current_user
+
+    render plain: 'unauthorized', status: :unauthorized
+  end
 end
 
-def verify_valid_move
-  return if @piece.valid_move?(x_position,y_position)
-end
-
-def piece_params
-   params.permit(
-    :id, :x_position, :y_position, :type, :color, :html_code, :symbol
-    )
-end
-
-def current_piece
-  @current_piece ||= piece.find(params[:id])
-end
-
-def require_authorized_for_current_piece
-  return unless current_piece.game.user != current_user
-
-  render plain: 'unauthorized', status: :unauthorized
-end
-end
