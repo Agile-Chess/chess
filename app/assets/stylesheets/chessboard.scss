@@ -5,27 +5,29 @@
     border: 25px solid #333;
     position: absolute;
 }
+
 .black {
     float: left;
     width: 80px;
     height: 80px;
     background-color: grey;
-    color: white;
-    font-size:50px;
-    text-align:center;
+
+    font-size: 50px;
+    text-align: center;
     display: table-cell;
-    vertical-align:middle;
+    vertical-align: middle;
 }
+
 .white {
     float: left;
     width: 80px;
     height: 80px;
     background-color: #fff;
-    color: black;
-    font-size:50px;
-    text-align:center;
+
+    font-size: 50px;
+    text-align: center;
     display: table-cell;
-    vertical-align:middle;
+    vertical-align: middle;
 }
 
 .pieces {
@@ -44,8 +46,8 @@
     height: 80px;
     background-color: grey;
     color: white;
-    font-size:50px;
-    text-align:center;
+    font-size: 50px;
+    text-align: center;
     display: table-cell;
-    vertical-align:middle;
+    vertical-align: middle;
 }
