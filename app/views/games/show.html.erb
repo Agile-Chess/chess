@@ -1,56 +1,69 @@
-  <p>
-    <%= @game.name %>
-  </p>
-
-<script>
-	$(document).ready(function() {
-		$( '.game_piece' ).draggable({
-			helper: 'clone'
-		});
-		$( '.game_piece' ).draggable({
-			grid: [ 80, 80 ]
-		});
-		$( '.squares' ).droppable({
-			drop: function( event, ui ) {
-				$('.squares').append(ui.draggable);
-			// update: function( event, ui ) {
-	  //  		$.ajax({
-	  //       type: 'PUT',
-	  //       url: ui.item.data('update-url'),
-	  //       dataType: 'json',
-	  //       data: { @pieces: { x_position, y_position: ui.item.index() } }
-	  //     });
-				alert( "dropped" );
-			}
-		});
-	});
-</script>
-
-<br />
-
-
-<div class="chessboard">
-
-	<% (0...Game::BOARD_SIZE).each do |y| %>
-		 <!-- Start Row -->
-		<% color = (y.even?) ? "white" : "black" %>
-		<% (0...Game::BOARD_SIZE).each do |x| %>
-			<div class="squares">
-				<% p = @game.pieces.where(x_position: x, y_position: y).first %>
-				<% if p.nil? %>
-					<div class="<%= color %>"></div>
-				<% else %>
-					<div class="<%= color %>">	
-						<% if p.color == 0 %>				
-							<%= link_to p.html_code(Piece::WHITE).html_safe, game_piece_path(p), class: "game_piece" %> 
-						<% else %>
-							<%= link_to p.html_code(Piece::BLACK).html_safe, game_piece_path(p), class: "game_piece" %>
-						<% end %>
-						data-update-url="<%= piece_path(@pieces) %>"	
-					</div>
-				<% end %>
-			</div>	
-			<% color = (color == "white") ? "black" : "white" %>
-		<% end %>
-	<% end %>
+<div id='mydiv' style='display:none'>
+    TEST
 </div>
+<p>
+    <%= @game.name %>
+</p>
+<div class="chessboard">
+    <% (1..8).each do |y| %>
+    <% (1..8).each do |x| %>
+    <%  piece = @game.pieces.where("(x_position = ? AND y_position = ?)", x,y).first %>
+    <% if piece.nil? %>
+    <div class="droppable <%= @game.tile_color(x,y)%>" data-x_coord=<%=x %> data-y_coord =
+        <%= y %>></div>
+    <% else %>
+    <div class="droppable <%= @game.tile_color(x,y)%>" data-x_coord=<%=x %> data-y_coord =
+        <%= y %>>
+        <div class="piece " data-piece-id ="<%= piece.id %>" data-x_coord=<%=x %> data-y_coord =
+            <%= y %>>
+            <%=  piece.html_code(piece.color).html_safe %>
+        </div>
+    </div>
+    <% end %>
+    <% end %>
+    <% end %>
+</div>
+<br />
+<script>
+$(document).ready(function() {
+    let getGameData = async () => {
+        let id = $('.piece').attr('data-piece-id');
+        $.getJSON(id).success((data) => {
+            parseState(data);
+        });
+    };
+    let updatePieceData = () => {
+        let data = {
+            piece: {
+                id: data - piece - id,
+                x_coord: data - x_coord,
+                y_coord: data - y_coord
+            }
+        }
+        let id = $('.piece').attr('data-piece-id');
+        $.ajax({
+            url: '/pieces/' + id,
+            type: 'PUT',
+            data: data,
+            dataType: 'json',
+            success: function(result) {
+                alert("posted");
+            }
+        });
+    }
+    getGameData();
+    $('.piece').draggable({
+        revert: "invalid"
+    });
+    $('.droppable').droppable({
+        drop: (e, ui) => {
+            e.target.innerHTML = `<div class="piece">${ui.draggable.html()}</div>`;
+            ui.draggable.remove();
+            $('.piece').draggable({
+                revert: "invalid"
+            });
+            updatePieceData();
+        }
+    })
+});
+</script>
