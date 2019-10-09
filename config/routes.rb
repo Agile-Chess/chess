@@ -7,5 +7,7 @@ Rails.application.routes.draw do
       put :join
     end
   end
+  resources :pieces, only: :update
+  
 end
 
