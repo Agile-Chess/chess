@@ -20,13 +20,18 @@ class PiecesController < ApplicationController
     @game = @piece.game
     x_path = @piece.x_position
     y_path = @piece.y_position
-    
+    if verify_valid_move
       @piece.update(piece_params)
       respond_to do |format|
         format.html {render :show }
-        format.json { render json: @piece, status: :ok }
+        format.json { render json: @piece, status: :ok } 
       end
-
+    else
+      respond_to do |format|
+        format.html {render :show }
+        format.json { render json: @piece, status: :ok } 
+      end
+    end
 
    # if !your_turn?
     #  render text: 'It must be your turn',
@@ -47,7 +52,11 @@ private
   end
 
   def verify_valid_move
-    return if @piece.valid_move?(x_position,y_position)
+    x_position = params[:x_position]
+    y_position = params[:y_position]
+    puts x_position, y_position
+    @piece = Piece.find(params[:id])
+    return @piece.valid_move?(x_position,y_position)
   end
 
   def piece_params
