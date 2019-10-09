@@ -23,8 +23,6 @@ ActiveRecord::Schema.define(version: 2019_10_08_202731) do
     t.datetime "updated_at", null: false
     t.integer "turn"
     t.string "state"
-    t.index ["black_player_id"], name: "index_pieces_on_black_player_id"
-    t.index ["white_player_id"], name: "index_pieces_on_white_player_id"
   end
 
   create_table "pieces", force: :cascade do |t|
@@ -38,8 +36,6 @@ ActiveRecord::Schema.define(version: 2019_10_08_202731) do
     t.string "symbol"
     t.integer "color"
     t.string "html_code"
-    t.index ["game_id"], name: "index_pieces_on_game_id"
-    t.index ["player_id"], name: "index_pieces_on_player_id"
   end
 
   create_table "users", force: :cascade do |t|
