@@ -2,7 +2,7 @@ class Rook < Piece
 
   
 
-  def legal_move?(x, y)
+  def valid_move?(x, y)
     if x<0 or x>7
       return false
     end
