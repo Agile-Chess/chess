@@ -21,7 +21,7 @@ class PiecesController < ApplicationController
     x_path = @piece.x_position
     y_path = @piece.y_position
     
-      @piece.update(piece_params)
+      @piece.attempt_move(piece_params)
       respond_to do |format|
         format.html {render :show }
         format.json { render json: @piece, status: :ok }

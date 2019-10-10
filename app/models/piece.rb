@@ -10,6 +10,11 @@ class Piece < ApplicationRecord
   # belongs_to :user
 
   
+  def attempt_move (piece_params)
+    piece_params[:has_moved]=true
+    update(piece_params)
+  end
+
 
   def is_obstructed?(x_des, y_des)
     pieces_in_row = game.pieces.where(x_position: x_des)
