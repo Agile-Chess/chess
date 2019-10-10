@@ -12,18 +12,36 @@ class King < Piece
   
   # Returns true if the king and rook are not moved
   # location is valid and no obstruction
-  def castling_move?(x, y)
-     return false unless castling_coordinates?([x, y])
+  def can_castle?(x, y)
     return false if moved
+     return false unless castling_coordinates?([x, y])
     rook = castling_rook(x)
     return false unless rook
-    distance = x_distance(rook.x_position)
-    if path_clear?(rook.x_position, rook.y_position, distance) & !rook.moved
-      rook.castling_move
-      return true
-    end
-    false
+    return false if rook.moved
+    return false unless castle_path_clear?(rook)
+    return true
   end
+
+  def castle_path_clear?(rook)
+    if rook.x_position == 0
+      (1...self.x_position).each do |x|
+       return false if game.pieces.find_by(x_position: x, y_position: rook.y)
+      end
+    else 
+      ((self.x_position + 1)...7).each do |x|
+        return false if game.pieces.find_by(x_position: x, y_position: rook.y)
+      end
+    end
+    return true
+  end
+
+  def castle!(x, y)
+    rook = castling_rook(x)
+    update_attributes(x_position: x, y_position: y, moved: true)
+    rook_x = (x == 2) ? 3 : 5
+    rook.update_attributes(x_position: rook_x, y_position: y, moved: true)
+  end
+
 
   
     def castling_coordinates?(coordinates)

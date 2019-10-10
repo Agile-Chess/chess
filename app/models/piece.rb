@@ -50,7 +50,7 @@ class Piece < ApplicationRecord
       captured_piece = game.obstruction(new_x, new_y)
       captured_piece.update_attributes(x_position: nil, y_position: nil)
     end
-    update_attributes(x_position: new_x, y_position: new_y)
+    update_attributes(x_position: new_x, y_position: new_y, moved: true)
   end
 
   # determine that obstructing piece not yours

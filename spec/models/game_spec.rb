@@ -13,6 +13,6 @@ RSpec.describe Game, type: :model do
     end
 
     describe "#populate_game" do
-        pending
+       # pending
     end
 end
