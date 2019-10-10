@@ -21,6 +21,7 @@ class PiecesController < ApplicationController
     x_path = @piece.x_position
     y_path = @piece.y_position
     if verify_valid_move
+     
       @piece.update(piece_params)
       respond_to do |format|
         format.html {render :show }
@@ -56,7 +57,7 @@ private
     y_position = params[:y_position]
     puts x_position, y_position
     @piece = Piece.find(params[:id])
-    return @piece.valid_move?(x_position,y_position)
+    return @piece.valid_move?(x_position, y_position)
   end
 
   def piece_params
