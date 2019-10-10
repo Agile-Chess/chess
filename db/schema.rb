@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_08_202731) do
+ActiveRecord::Schema.define(version: 2019_10_10_201336) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 2019_10_08_202731) do
     t.datetime "updated_at", null: false
     t.integer "turn"
     t.string "state"
+    t.index ["black_player_id", "white_player_id"], name: "index_pieces_on_black_and_white_player_id", unique: true
     t.index ["black_player_id"], name: "index_pieces_on_black_player_id"
     t.index ["white_player_id"], name: "index_pieces_on_white_player_id"
   end
@@ -38,7 +39,9 @@ ActiveRecord::Schema.define(version: 2019_10_08_202731) do
     t.string "symbol"
     t.integer "color"
     t.string "html_code"
+    t.boolean "moved", default: false
     t.index ["game_id"], name: "index_pieces_on_game_id"
+    t.index ["player_id", "game_id"], name: "index_pieces_on_player_id_and_game_id", unique: true
     t.index ["player_id"], name: "index_pieces_on_player_id"
   end
 
