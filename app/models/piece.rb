@@ -12,20 +12,20 @@ class Piece < ApplicationRecord
   
 
   def is_obstructed?(x_des, y_des)
-    # pieces_in_row = game.pieces.where(x_position: x_des)
-    # pieces_in_column = game.pieces.where(y_position: y_des)
-    # # horizontal case
-    # if move_type(x_des, y_des) == :horizontal
-    #   !pieces_in_row.where("x_position > ? AND x_position < ?", [self.x_position, x_des].min, [self.x_position, x_des].max).empty?
-    # # vertical case
-    # elsif move_type(x_des, y_des) == :vertical
-    #   !pieces_in_column.where("y_position > ? AND y_position < ?", [self.y_position, y_des].min, [self.y_position, y_des].max).empty?
-    # # diagonal case
-    # elsif move_type(x_des, y_des) == :diagonal
-    #   diagonal_blocker?(x_des, y_des)
-    # else
-    #   raise "Invalid move" if move_type(x_des, y_des) == :invalid
-    # end
+    pieces_in_row = game.pieces.where(x_position: x_des)
+    pieces_in_column = game.pieces.where(y_position: y_des)
+    # horizontal case
+    if move_type(x_des, y_des) == :horizontal
+      !pieces_in_row.where("x_position > ? AND x_position < ?", [self.x_position, x_des].min, [self.x_position, x_des].max).empty?
+    # vertical case
+    elsif move_type(x_des, y_des) == :vertical
+      !pieces_in_column.where("y_position > ? AND y_position < ?", [self.y_position, y_des].min, [self.y_position, y_des].max).empty?
+    # diagonal case
+    elsif move_type(x_des, y_des) == :diagonal
+      diagonal_blocker?(x_des, y_des)
+    else
+      raise "Invalid move" if move_type(x_des, y_des) == :invalid
+    end
   end
 
   # determine if user of piece matches current turn
@@ -75,7 +75,7 @@ class Piece < ApplicationRecord
     return false unless user_owns_piece?
     return false if nil_move?(x_des, y_des)
     return false unless move_on_board?(x_des, y_des)
-    # return false if is_obstructed?(x_des, y_des)
+    return false if is_obstructed?(x_des, y_des)
     # return false if destination_obstructed?(x_des, y_des)
     true
   end

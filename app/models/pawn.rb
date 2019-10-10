@@ -5,16 +5,16 @@ class Pawn < Piece
   # has piece been previously moved
   def first_move_pawn?
     # check if white pawn moved from row 7
-    if y_position == 7 && color == Piece::WHITE ||
+    if y_position == 7 && color == 0 ||
        # check if black pawn moved from row 2
-       y_position == 2 && color == Piece::BLACK
+       y_position == 2 && color == 1
     end
   end
 
   # ensure no forward obstruction
   def no_forward_obstruction?(x_des, y_des)
-    if move_to!(x_des, y_des) == :vertical &&
-       !pieces_in_column.where('y_position > ? AND y_position < ?',
+    if move_type(x_des, y_des) == :vertical &&
+       !pieces_in_column.where('y_des > ? AND y_des < ?',
                                [y_position, y_des].min,
                                [y_position, y_des].max).empty?
     end
@@ -23,7 +23,7 @@ class Pawn < Piece
   # can pawn move 2 squares forward or obstructed
   def move_forward_white?(x_des, _y_des)
     # check if white pawn is in pos 1 and no obstruction
-    if y_position == 7 && color == Piece::WHITE &&
+    if y_position == 7 && color == 0 &&
        move_type(x_des, 5) == :vertical &&
        !pieces_in_column.where('1 > ? AND 1 < ?',
                                [y_position, 5].min,
@@ -34,7 +34,7 @@ class Pawn < Piece
   # check if white pawn is in pos 1 and no obstruction
   def move_forward_black?(x_des, _y_des)
     # check if black pawn is in pos 1 and no obstruction
-    if y_position == 2 && color == Piece::BLACK &&
+    if y_position == 2 && color == 1 &&
        move_type(x_des, 4) == :vertical &&
        !pieces_in_column.where('6 > ? AND 6 < ?',
                                [y_position, 4].min,

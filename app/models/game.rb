@@ -3,15 +3,25 @@ class Game < ApplicationRecord
   has_many :users
 
   after_create :draw_board!
+  after_create :assign_pieces
   BOARD_SIZE = 8
   
   scope :available_black, -> { where(black_player_id: nil) }
   scope :available_white, -> { where(white_player_id: nil) }
 
+  def assign_pieces
+    pieces.where(color: 0).each do |p|
+      p.update_attributes(player_id: white_player_id)
+    end
+    pieces.where(color: 1).each do |p|
+      p.update_attributes(player_id: black_player_id)
+    end
+  end
+
   def draw_board!
     #Draw White Pawns
     (1..8).each do |x_position|
-      Pawn.create(game_id: id,  x_position: x_position, y_position: 7, html_code: "&#9817;")
+      Pawn.create(game_id: id,  x_position: x_position, y_position: 7, color: 0, html_code: "&#9817;")
     end
     #Draw White Rooks
     [1,8].each do |x_position|
@@ -29,11 +39,11 @@ class Game < ApplicationRecord
     King.create(game_id: id, x_position: 4, y_position: 8, html_code: "&#9812;")
     #Draw White Queen
     Queen.create(game_id: id, x_position: 5, y_position: 8, html_code: "&#9813;")
-#Draw Black Pieces
- #Draw Black Pawns
- (1..8).each do |x_position|
-  Pawn.create(game_id: id, x_position: x_position, y_position: 2, html_code: "&#9823;")
-end
+    #Draw Black Pieces
+    #Draw Black Pawns
+    (1..8).each do |x_position|
+      Pawn.create(game_id: id, x_position: x_position, y_position: 2, color: 1, html_code: "&#9823;")
+    end
     #Draw Black Rooks
     [1,8].each do |x_position|
       Rook.create(game_id: id, x_position: x_position, y_position: 1, html_code: "&#9820;")
