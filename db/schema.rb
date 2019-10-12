@@ -23,7 +23,6 @@ ActiveRecord::Schema.define(version: 2019_10_10_201336) do
     t.datetime "updated_at", null: false
     t.integer "turn"
     t.string "state"
-    t.index ["black_player_id", "white_player_id"], name: "index_pieces_on_black_and_white_player_id", unique: true
     t.index ["black_player_id"], name: "index_pieces_on_black_player_id"
     t.index ["white_player_id"], name: "index_pieces_on_white_player_id"
   end
@@ -41,7 +40,6 @@ ActiveRecord::Schema.define(version: 2019_10_10_201336) do
     t.string "html_code"
     t.boolean "moved", default: false
     t.index ["game_id"], name: "index_pieces_on_game_id"
-    t.index ["player_id", "game_id"], name: "index_pieces_on_player_id_and_game_id", unique: true
     t.index ["player_id"], name: "index_pieces_on_player_id"
   end
 
