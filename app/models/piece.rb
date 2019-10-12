@@ -79,4 +79,17 @@ class Piece < ApplicationRecord
     return false if destination_obstructed?(x_des, y_des)
     true
   end
+
+  def putting_king_in_check?(x_des, y_des)
+    current_x_pos = x_position
+    current_y_pos = y_position
+    update_attributes x_position: x_des, y_position: y_des
+    king = game.pieces.find_by(type: 'King')
+    game.pieces.each do |piece|
+      return true if piece.valid_move?(king.x_position, king.y_position)
+    end
+    update_attributes x_position: current_x_pos, y_position: current_y_pos
+    false
+  end
+
 end
