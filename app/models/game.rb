@@ -79,4 +79,11 @@ end
     return white_player_id.nil?
   end
   
+  def forfeit(current_user_id)
+    if current_user_id == white_player_id
+      update_attributes(winning_player_id: black_player_id, state: 'forfeit')
+    else
+      update_attributes(winning_player_id: white_player_id, state: 'forfeit')
+    end
+  end
 end
