@@ -39,6 +39,12 @@ class GamesController < ApplicationController
     end
   end
 
+  def forfeit
+    @game = Game.find(params[:id])
+    @game.forfeit(current_user.id) 
+    redirect_to game_path(@game), notice: "You concede!"
+  end
+
 private
 
     def game_params

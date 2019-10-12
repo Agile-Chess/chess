@@ -5,12 +5,11 @@ class Piece < ApplicationRecord
   WHITE = 0
   BLACK = 1
 
+
   belongs_to :game
   # belongs_to :user
 
-  def html_code(color)
-    nil
-  end
+  
 
   def is_obstructed?(x_des, y_des)
     pieces_in_row = game.pieces.where(x_position: x_des)
@@ -51,7 +50,7 @@ class Piece < ApplicationRecord
       captured_piece = game.obstruction(new_x, new_y)
       captured_piece.update_attributes(x_position: nil, y_position: nil)
     end
-    update_attributes(x_position: new_x, y_position: new_y)
+    update_attributes(x_position: new_x, y_position: new_y, moved: true)
   end
 
   # determine that obstructing piece not yours
@@ -80,4 +79,17 @@ class Piece < ApplicationRecord
     return false if destination_obstructed?(x_des, y_des)
     true
   end
+
+  def putting_king_in_check?(x_des, y_des)
+    current_x_pos = x_position
+    current_y_pos = y_position
+    update_attributes x_position: x_des, y_position: y_des
+    king = game.pieces.find_by(type: 'King')
+    game.pieces.each do |piece|
+      return true if piece.valid_move?(king.x_position, king.y_position)
+    end
+    update_attributes x_position: current_x_pos, y_position: current_y_pos
+    false
+  end
+
 end

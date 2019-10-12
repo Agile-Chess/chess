@@ -1,8 +1,6 @@
 class Pawn < Piece
-  # sets pieces image
-  def html_code(color)
-    color == Piece::WHITE ? '&#9817;' : '&#9823;'
-  end
+ 
+ 
 
   # has piece been previously moved
   def first_move_pawn?
@@ -106,12 +104,12 @@ class Pawn < Piece
   end
 
   # test for valid move of piece
-  def valid_move?(*)
-    if (no_forward_obstruction? true) &&
-       (no_x_move? true) &&
-       (standard_move? true) ||
-       (promotion_move? true) ||
-       (pawn_capture_move? true)
+  def valid_move?(x_des,y_des)
+    if (no_forward_obstruction?(x_des,y_des)) &&
+       (no_x_move?(x_des)) &&
+       (standard_move?(x_des,y_des)) ||
+       (promotion_move?(x_des,y_des)) ||
+       (pawn_capture_move?(x_des,y_des))
       true
     end
   end

@@ -9,6 +9,4 @@ class Queen < Piece
     (x_pos == x_des || y_pos == y_des || x_diff(x_des) == y_diff(y_des))
   end
 
-
-
 end
