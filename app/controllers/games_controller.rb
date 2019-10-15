@@ -45,6 +45,9 @@ class GamesController < ApplicationController
     redirect_to game_path(@game), notice: "You concede!"
   end
 
+
+
+
 private
 
     def game_params

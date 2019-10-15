@@ -50,9 +50,6 @@ end
     King.create(game_id: id, x_position: 4, y_position: 1, html_code: "&#9818")
     #Draw Black Queen
     Queen.create(game_id: id, x_position: 5, y_position: 1, html_code: "&#9819;")
-
-
-
   end
 
   def tile_color(x,y)
@@ -65,8 +62,8 @@ end
     elsif y.even? && x.even?
       "black"
     end
-    
   end
+  
 
   
 
@@ -78,6 +75,14 @@ end
   def available_white?
     return white_player_id.nil?
   end
+
+  def check?
+    king = pieces.where(player: player, type: 'King', captured: false).first
+    return false if king.nil?
+    opponent_pieces.where = pieces.where.not(player: player, captured: true)
+    return true if find_check(opponent_pieces, king)
+    false
+  end 
   
   def forfeit(current_user_id)
     if current_user_id == white_player_id
