@@ -39,6 +39,12 @@ class GamesController < ApplicationController
     end
   end
 
+  def update
+      @piece.update_attributes game_params
+      game.assign_pieces
+      redirect_to game_path game
+  end
+
   def forfeit
     @game = Game.find(params[:id])
     @game.forfeit(current_user.id) 
@@ -47,15 +53,11 @@ class GamesController < ApplicationController
 
 private
 
-    def game_params
+  def game_params
       params.require(:game).permit(:name)
-    end
-
-  def update
-      @piece.update_attributes game_params
-      game.assign_pieces
-      redirect_to game_path game
   end
+
+
 
 end
 

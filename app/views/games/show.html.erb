@@ -14,14 +14,12 @@
     <% (1..8).each do |x| %>
     <%  piece = @game.pieces.where("(x_position = ? AND y_position = ?)", x,y).first %>
     <% if piece.nil? %>
-    <div class="droppable <%= @game.tile_color(x,y)%>" data-x_coord=<%=x %> data-y_coord =
-        <%= y %>></div>
+    <div class="droppable <%= @game.tile_color(x,y)%>" data-x_coord=<%=x %> data-y_coord = <%= y %>>
+    </div>
     <% else %>
-    <div class="droppable <%= @game.tile_color(x,y)%>" data-x_coord=<%=x %> data-y_coord =
-        <%= y %>>
-        <div class="piece " data-piece-id="<%= piece.id %>" data-x_coord=<%=x %> data-y_coord =
-            <%= y %>>
-            <%=  piece.html_code.html_safe %>
+    <div class="droppable <%= @game.tile_color(x,y)%>" data-x_coord=<%=x %> data-y_coord = <%= y %>>
+        <div class="piece " data-piece-id="<%= piece.id %>" data-x_coord=<%=x %> data-y_coord = <%= y %>>
+            <%=  @game.pieces.html_code.html_safe %>
         </div>
     </div>
     <% end %>
@@ -51,7 +49,7 @@ $(document).ready(function() {
                 url: '/pieces/' + update_piece.id,
                 beforeSend: function(xhr) { xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content')) },
                 dataType: 'json',
-                data: { piece_id: update_piece.id, x_position: update_piece.x_postion, y_position: update_piece.y_position },
+                data: { id: update_piece.id, x_position: update_piece.x_postion, y_position: update_piece.y_position },
                 success: function(data) {
                     destination_square.empty();
                     location.reload(true);
