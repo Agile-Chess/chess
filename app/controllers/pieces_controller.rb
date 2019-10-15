@@ -14,6 +14,7 @@ class PiecesController < ApplicationController
     @pieces = @game.pieces
     render 'games/show'
   end
+  
 
   def update
     @piece = Piece.find(params[:id])
