@@ -12,6 +12,7 @@ Rails.application.routes.draw do
       put :forfeit
     end
   end
+  resources :pieces
 
 
 end

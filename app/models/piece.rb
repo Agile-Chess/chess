@@ -7,7 +7,7 @@ class Piece < ApplicationRecord
   BLACK = 1
 
   belongs_to :game
-  has_many :users
+  
 
   def move_type(x_des, y_des)
     if (x_position - x_des).abs.positive? && (y_position - y_des).abs.zero
