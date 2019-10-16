@@ -4,19 +4,20 @@
 <p>
     <%= @game.name %>
 </p>
-
-
 <div class="chessboard">
     <% (1..8).each do |y| %>
     <% (1..8).each do |x| %>
     <%  piece = @game.pieces.where(x_position: x, y_position: y).first %>
     <% if piece.nil? %>
-    <div class="droppable <%= @game.tile_color(x,y)%>" data-x_coord=<%=x %> data-y_coord = <%= y %>>
+    <div class="droppable <%= @game.tile_color(x,y)%>" data-x_coord=<%=x %> data-y_coord =
+        <%= y %>>
     </div>
     <% else %>
-    <div class="droppable <%= @game.tile_color(x,y)%>" data-x_coord=<%=x %> data-y_coord = <%= y %>>
-        <div class="piece " data-piece-id="<%= piece.id %>" data-x_coord=<%=x %> data-y_coord = <%= y %>>
-            <%=  @game.pieces.html_code.html_safe %>
+    <div class="droppable <%= @game.tile_color(x,y)%>" data-x_coord=<%=x %> data-y_coord =
+        <%= y %>>
+        <div class="piece " data-piece-id="<%= piece.id %>" data-x_coord=<%=x %> data-y_coord =
+            <%= y %>>
+            <%=  piece.html_code.html_safe %>
         </div>
     </div>
     <% end %>
@@ -26,7 +27,6 @@
 <%= link_to 'Forfeit', forfeit_game_path(@game), method: :put, class: "btn btn-danger", data:  {confirm: "Are you sure you want to forfeit?"} %>
 <%= link_to "Castle Kingside", '#' %>
 <%= link_to "Castle Queenside", '#' %>
-
 <br />
 <script>
 $(document).ready(function() {

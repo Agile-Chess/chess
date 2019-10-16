@@ -10,11 +10,9 @@ class GamesController < ApplicationController
   end
 
   def create
-    @game = Game.new(game_params)
-
-    @game.white_player_id = current_user.id
-    @game.black_player_id = nil
+    @game = current_user.games.create(white_player_id: current_user.id, name: game_params["name"])
     @game.save
+   
     redirect_to game_path(@game)
   end
 

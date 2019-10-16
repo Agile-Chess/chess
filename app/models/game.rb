@@ -1,7 +1,7 @@
 class Game < ApplicationRecord
   has_many :pieces
-  has_many :users
-  # belongs_to :user
+
+  belongs_to :user
 
   after_create :draw_board!
   after_create :assign_pieces!
