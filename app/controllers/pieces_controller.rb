@@ -49,7 +49,7 @@ class PiecesController < ApplicationController
 
   def piece_params
     params.require(:id).permit(
-      :x_position, :y_position, :type, :color, :html_code, :symbol
+      :x_position, :y_position, :type, :color, :html_code
     )
   end
 

@@ -13,7 +13,7 @@ class GamesController < ApplicationController
     @game = Game.new(game_params)
 
     @game.white_player_id = current_user.id
-    @game.black_player_id = current_user.id
+    @game.black_player_id = nil
     @game.save
     redirect_to game_path(@game)
   end

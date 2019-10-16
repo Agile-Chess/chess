@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_11_233940) do
+ActiveRecord::Schema.define(version: 2019_10_16_130013) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,13 +24,14 @@ ActiveRecord::Schema.define(version: 2019_10_11_233940) do
     t.integer "turn"
     t.string "state"
     t.integer "winning_player_id"
+    t.integer "user_id"
     t.index ["black_player_id"], name: "index_pieces_on_black_player_id"
     t.index ["white_player_id"], name: "index_pieces_on_white_player_id"
   end
 
   create_table "pieces", force: :cascade do |t|
     t.integer "game_id"
-    t.integer "player_id"
+    t.integer "user_id"
     t.integer "x_position"
     t.integer "y_position"
     t.datetime "created_at", null: false
@@ -41,7 +42,7 @@ ActiveRecord::Schema.define(version: 2019_10_11_233940) do
     t.string "html_code"
     t.boolean "moved", default: false
     t.index ["game_id"], name: "index_pieces_on_game_id"
-    t.index ["player_id"], name: "index_pieces_on_player_id"
+    t.index ["user_id"], name: "index_pieces_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|

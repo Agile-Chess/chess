@@ -5,14 +5,11 @@
     <%= @game.name %>
 </p>
 
-<%= link_to 'Forfeit', forfeit_game_path(@game), method: :put, class: "btn btn-danger", data:  {confirm: "Are you sure you want to forfeit?"} %>
-<%= link_to "Castle Kingside", '#' %>
-<%= link_to "Castle Queenside", '#' %>
 
 <div class="chessboard">
     <% (1..8).each do |y| %>
     <% (1..8).each do |x| %>
-    <%  piece = @game.pieces.where("(x_position = ? AND y_position = ?)", x,y).first %>
+    <%  piece = @game.pieces.where(x_position: x, y_position: y).first %>
     <% if piece.nil? %>
     <div class="droppable <%= @game.tile_color(x,y)%>" data-x_coord=<%=x %> data-y_coord = <%= y %>>
     </div>
@@ -26,6 +23,10 @@
     <% end %>
     <% end %>
 </div>
+<%= link_to 'Forfeit', forfeit_game_path(@game), method: :put, class: "btn btn-danger", data:  {confirm: "Are you sure you want to forfeit?"} %>
+<%= link_to "Castle Kingside", '#' %>
+<%= link_to "Castle Queenside", '#' %>
+
 <br />
 <script>
 $(document).ready(function() {
