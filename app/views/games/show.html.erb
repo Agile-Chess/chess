@@ -7,7 +7,7 @@
 <div class="chessboard">
     <% (1..8).each do |y| %>
     <% (1..8).each do |x| %>
-    <%  piece = @game.pieces.where(x_position: x, y_position: y).first %>
+    <%  piece = @game.pieces.where("(x_position = ? AND y_position = ?)", x,y).first %>
     <% if piece.nil? %>
     <div class="droppable <%= @game.tile_color(x,y)%>" data-x_coord=<%=x %> data-y_coord =
         <%= y %>>
@@ -42,7 +42,7 @@ $(document).ready(function() {
             var update_piece = {
                 id: piece.data('piece-id'),
                 x_position: destination_square.data('x_coord'),
-                y_position: destination_square.data('y_coord'),
+                y_position: destination_square.data('y_coord')
             }
 
             $.ajax({

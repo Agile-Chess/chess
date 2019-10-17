@@ -71,7 +71,7 @@ class Piece < ApplicationRecord
   # using piece owner player_id rather than piece color to validate different owners of pieces
   def captured_move?(x_des, y_des)
     captured_piece = obstructed?(x_des, y_des)
-    captured_piece && captured_piece.player_id != player_id
+    captured_piece && captured_piece.user.id != current_user.id
   end
 
   # placeholder - destination_obstruction your piece
