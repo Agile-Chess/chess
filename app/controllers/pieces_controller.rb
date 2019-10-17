@@ -17,7 +17,7 @@ class PiecesController < ApplicationController
   def update
     @piece = Piece.find(params[:id])
     @game = @piece.game
-    if verify_valid_move
+    if verify_valid_move?
       @piece.update(piece_params)
       respond_to do |format|
         format.html { render :show }
@@ -34,22 +34,23 @@ class PiecesController < ApplicationController
 
   private
 
-  def find_piece
-    @piece = Piece.find(params[:id])
-    @game = @piece.game
-  end
+  # def find_piece
+  #   @piece = Piece.find(params[:id])
+  #   @game = @piece.game
+  # end
 
-  def verify_valid_move
-    x_position = params[:x_position]
-    y_position = params[:y_position]
-    puts x_position, y_position
-    @piece = Piece.find(params[:id])
-    @piece.valid_move?(x_position, y_position)
+  def verify_valid_move?
+    # x_position = params[:x_position]
+    # y_position = params[:y_position]
+    # puts x_position, y_position
+    # @piece = Piece.find(params[:id])
+    # @piece.valid_move?(x_position, y_position)
+    true
   end
 
   def piece_params
-    params.require(:id).permit(
-      :x_position, :y_position, :type, :color, :html_code
+    params.permit(
+      :id, :x_position, :y_position, :type, :color, :html_code, :user_id
     )
   end
 

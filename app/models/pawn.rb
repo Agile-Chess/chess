@@ -7,7 +7,7 @@ class Pawn < Piece
     # check if white pawn moved from row 1
     if y_position == 7 && color == Piece::WHITE ||
        # check if black pawn moved from row 7
-       y_position == 1 && color == Piece::BLACK
+       y_position == 2 && color == Piece::BLACK
     end
   end
 
@@ -34,11 +34,11 @@ class Pawn < Piece
   # check if white pawn is in pos 1 and no obstruction
   def move_forward_black?(x_des, _y_des)
     # check if black pawn is in pos 1 and no obstruction
-    if y_position == 1 && color == Piece::BLACK &&
-       move_type(x_des, 3) == :vertical &&
+    if y_position == 2 && color == Piece::BLACK &&
+       move_type(x_des, 4) == :vertical &&
        !pieces_in_column.where('1 > ? AND 1 < ?',
-                               [y_position, 3].min,
-                               [y_position, 3].max).empty?
+                               [y_position, 4].min,
+                               [y_position, 4].max).empty?
     end
   end
 
@@ -75,7 +75,7 @@ class Pawn < Piece
     #    (x_chg && y_chg == 1) &&
     #    (captured_move? true)
     # end
-   false
+    false
   end
 
   def en_passant_available?(x_des, y_des)
