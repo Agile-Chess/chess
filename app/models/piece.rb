@@ -10,11 +10,17 @@ class Piece < ApplicationRecord
   
 
   def move_type(x_des, y_des)
-    if (x_position - x_des).abs.positive? && (y_position - y_des).abs.zero
+   x_change = x_position - x_des.to_i
+   y_change = y_position - y_des.to_i
+
+    if x_change.abs.positive? && y_change.abs.zero?
       'horizontal'
-    elsif (x_position - x_des).abs.zero && (y_position - y_des).abs.positive?
+     
+    elsif x_change.abs.zero? && y_change.abs.positive?
+     
       'vertical'
-    elsif (x_position - x_des).abs.positive? && (y_position - y_des).abs.positive?
+    elsif x_change.abs.positive? && y_change.abs.positive? && x_change == y_change
+      
       'diagonal'
     else
       'invalid'

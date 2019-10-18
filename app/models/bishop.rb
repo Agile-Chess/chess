@@ -4,7 +4,7 @@
 class Bishop < Piece
 
   def valid_move?(x_des, y_des)
-    move_type(x_des, y_des) == diagonal ? true : false
+    move_type(x_des, y_des) == 'diagonal' ? true : false
   end
 
 

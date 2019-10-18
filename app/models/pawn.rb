@@ -22,6 +22,7 @@ class Pawn < Piece
 
   # can pawn move 2 squares forward or obstructed
   def move_forward_white?(x_des, _y_des)
+    
     # check if white pawn is in pos 1 and no obstruction
     if y_position == 7 && color == Piece::WHITE &&
        move_type(x_des, 5) == :vertical &&
@@ -41,15 +42,32 @@ class Pawn < Piece
                                [y_position, 4].max).empty?
     end
   end
+   # capture move for pawn
+  def pawn_capture_move?(*args)
+    new_x_position, new_y_position = args
+    # method code
+
+    (return false if new_x_position == false)
+    y_chg = (new_y_position.to_i - y_position).abs
+    x_chg = (new_x_position.to_i - x_position).abs
+    
+
+    if move_type(new_x_position, new_y_position) == 'diagonal' &&
+       (x_chg && y_chg == 1) &&
+       (captured_move? true)
+    end
+  end
 
   # verify no x move except in capture
   def no_x_move?(x_des)
-    if (pawn_capture_move? false) && (x_des - x_position).zero?
+  
+    if (pawn_capture_move? == false) && (x_des - x_position).zero?
     end
   end
 
   # can pawn move 2 squares forward or obstructed
-  def move_forward_two?(*)
+  def move_forward_two?
+
     if (move_forward_white true) ||
        (move_forward_black true)
       true
@@ -57,29 +75,18 @@ class Pawn < Piece
   end
 
   # allowed base move for pawn
-  def standard_move?(x_des, y_des)
-    y_chg = (y_des - y_position)
-    x_chg = (x_des - x_position)
-    if (first_move_pawn true) && (y_chg.positive && y_chg < 3) &&
-       (move_forward_two? true)
+  def standard_move?(x_des,y_des)
+   
+    y_chg = (y_des.to_i - y_position)
+    x_chg = (x_des.to_i - x_position)
+    if (first_move_pawn? true)  && y_chg < 3 &&
+       (move_forward_two? true) && x_chg.zero?
     else
       y_chg == 1 && x_chg.zero?
     end
   end
 
-  # capture move for pawn
-  def pawn_capture_move?(*args)
-    new_x_position, new_y_position = args
-    # method code
-
-    (return false if new_x_position.nil?)
-    y_chg = (new_y_position - y_position).abs
-    x_chg = (new_x_position - x_position).abs
-    if move_type(new_x_position, new_y_position) == 'diagonal' &&
-       (x_chg && y_chg == 1) &&
-       (captured_move? true)
-    end
-  end
+ 
 
   def en_passant_available?(y_des)
     y_chg = (y_des - y_position)
@@ -105,11 +112,16 @@ class Pawn < Piece
 
   # test for valid move of piece
   def valid_move?(x_des, y_des)
-    if no_x_move?(x_des) &&
-       standard_move?(x_des, y_des) ||
-       promotion_move?(x_des, y_des) ||
-       pawn_capture_move?(x_des, y_des)
-      true
-    end
+   return true
+   # x_des = x_des.to_i
+   # y_des = y_des.to_i
+    byebug
+   # if standard_move?(x_des, y_des) ||
+   #    promotion_move?(x_des, y_des) ||
+    #   pawn_capture_move?(x_des, y_des) &&
+    #   no_x_move?(x_des) 
+   #    
+    #  true
+   # end
   end
 end

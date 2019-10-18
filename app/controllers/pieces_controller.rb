@@ -45,6 +45,7 @@ class PiecesController < ApplicationController
     puts x_position, y_position
     @piece = Piece.find(params[:id])
     @piece.valid_move?(x_position, y_position)
+    
     # true
   end
 
