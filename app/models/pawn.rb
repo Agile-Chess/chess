@@ -1,7 +1,7 @@
-class Pawn < Piece
- 
- 
+# frozen_string_literal: true
 
+# define valid moves for pawn
+class Pawn < Piece
   # has piece been previously moved
   def first_move_pawn?
     # check if white pawn moved from row 1
@@ -68,32 +68,28 @@ class Pawn < Piece
   end
 
   # capture move for pawn
-  def pawn_capture_move?(x_des, y_des)
-    # y_chg = (y_des - y_position).abs
-    # x_chg = (x_des - x_position).abs
-    # if move_type(x_des, y_des) == :diagonal &&
-    #    (x_chg && y_chg == 1) &&
-    #    (captured_move? true)
-    # end
-    false
+  def pawn_capture_move?
+    (return false if x_position.nil?)
+    y_chg = (y_des.to_i - y_position)
+    x_chg = (x_des.to_i - x_position)
+    if move_type(x_des, y_des) == 'diagonal' &&
+       (x_chg && y_chg == 1) &&
+       (captured_move? true)
+    end
   end
 
-  def en_passant_available?(x_des, y_des)
+  def en_passant_available?(y_des)
     y_chg = (y_des - y_position)
-    x_chg = (x_des - x_position)
-    if (first_move_pawn true) && (y_chg.positive && y_chg < 3) && (move_forward_two? true)
-      return true
-    else
-      return false
-    end
+    (if (first_move_pawn true) && (y_chg.positive && y_chg < 3) &&
+     (move_forward_two? true); return true; end)
   end
 
   def en_passant_capture?(x_des, y_des)
     y_chg = (y_des - y_position).abs
     x_chg = (x_des - x_position).abs
     if move_type(x_des, y_des) == :diagonal &&
-      (x_chg && y_chg == 1) &&
-      (captured_move? true)
+       (x_chg && y_chg == 1) &&
+       (captured_move? true)
     elsif en_passant_available? == true
       (captured_move? true)
     end
@@ -105,11 +101,11 @@ class Pawn < Piece
   end
 
   # test for valid move of piece
-  def valid_move?(x_des,y_des)
-    if (no_x_move?(x_des)) &&
-       (standard_move?(x_des,y_des)) ||
-       (promotion_move?(x_des,y_des)) ||
-       (pawn_capture_move?(x_des,y_des))
+  def valid_move?(x_des, y_des)
+    if no_x_move?(x_des) &&
+       standard_move?(x_des, y_des) ||
+       promotion_move?(x_des, y_des) ||
+       pawn_capture_move?(x_des, y_des)
       true
     end
   end

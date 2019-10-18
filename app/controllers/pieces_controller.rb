@@ -40,12 +40,12 @@ class PiecesController < ApplicationController
   # end
 
   def verify_valid_move?
-    # x_position = params[:x_position]
-    # y_position = params[:y_position]
-    # puts x_position, y_position
-    # @piece = Piece.find(params[:id])
-    # @piece.valid_move?(x_position, y_position)
-    true
+    x_position = params[:x_position]
+    y_position = params[:y_position]
+    puts x_position, y_position
+    @piece = Piece.find(params[:id])
+    @piece.valid_move?(x_position, y_position)
+    # true
   end
 
   def piece_params
