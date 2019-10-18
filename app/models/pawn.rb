@@ -68,11 +68,14 @@ class Pawn < Piece
   end
 
   # capture move for pawn
-  def pawn_capture_move?
-    (return false if x_position.nil?)
-    y_chg = (y_des.to_i - y_position)
-    x_chg = (x_des.to_i - x_position)
-    if move_type(x_des, y_des) == 'diagonal' &&
+  def pawn_capture_move?(*args)
+    new_x_position, new_y_position = args
+    # method code
+
+    (return false if new_x_position.nil?)
+    y_chg = (new_y_position - y_position).abs
+    x_chg = (new_x_position - x_position).abs
+    if move_type(new_x_position, new_y_position) == 'diagonal' &&
        (x_chg && y_chg == 1) &&
        (captured_move? true)
     end
