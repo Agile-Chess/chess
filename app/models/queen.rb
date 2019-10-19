@@ -2,6 +2,6 @@
 # define valid move for Queen
 class Queen < Piece
   def valid_move?(x_des, y_des)
-    (x_position == x_des || y_position == y_des || x_diff(x_des) == y_diff(y_des))
+    move_type(x_des, y_des) == 'horizontal' || 'vertical' || 'diagonal'
   end
 end

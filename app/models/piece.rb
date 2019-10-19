@@ -10,11 +10,12 @@ class Piece < ApplicationRecord
   
 
   def move_type(x_des, y_des)
-    if (x_position - x_des).abs.positive? && (y_position - y_des).abs.zero
+    if (x_position - x_des.to_i).abs > 0 && (y_position - y_des.to_i).abs == 0
       'horizontal'
-    elsif (x_position - x_des).abs.zero && (y_position - y_des).abs.positive?
+    elsif (x_position - x_des.to_i).abs == 0 && (y_position - y_des.to_i).abs > 0
       'vertical'
-    elsif (x_position - x_des).abs.positive? && (y_position - y_des).abs.positive?
+    elsif (x_position - x_des.to_i).abs > 0 && (y_position - y_des.to_i).abs > 0 &&
+       ((x_position - x_des.to_i).abs == (y_position - y_des.to_i).abs)
       'diagonal'
     else
       'invalid'
@@ -86,9 +87,8 @@ class Piece < ApplicationRecord
     return false unless user_owns_piece?
     return false if nil_move?(x_des, y_des)
     return false unless move_on_board?(x_des, y_des)
-    # return false if is_obstructed?(x_des, y_des)
-    # return false if destination_obstruction?(x_des, y_des)
-    true
+    return false if is_obstructed?(x_des, y_des)
+    return false if destination_obstruction?(x_des, y_des)
   end
 
   def putting_king_in_check?(x_des, y_des)

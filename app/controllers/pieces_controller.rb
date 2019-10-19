@@ -17,6 +17,7 @@ class PiecesController < ApplicationController
   def update
     @piece = Piece.find(params[:id])
     @game = @piece.game
+    
     if verify_valid_move?
       @piece.update(piece_params)
       respond_to do |format|
