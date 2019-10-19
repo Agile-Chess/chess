@@ -10,39 +10,40 @@ class Piece < ApplicationRecord
   
 
   def move_type(x_des, y_des)
-    if (x_position - x_des).abs.positive? && (y_position - y_des).abs.zero
+    if (x_position - x_des.to_i).abs > 0 && (y_position - y_des.to_i).abs == 0
       'horizontal'
-    elsif (x_position - x_des).abs.zero && (y_position - y_des).abs.positive?
+    elsif (x_position - x_des.to_i).abs == 0 && (y_position - y_des.to_i).abs > 0
       'vertical'
-    elsif (x_position - x_des).abs.positive? && (y_position - y_des).abs.positive?
+    elsif (x_position - x_des.to_i).abs > 0 && (y_position - y_des.to_i).abs > 0 &&
+       ((x_position - x_des.to_i).abs == (y_position - y_des.to_i).abs)
       'diagonal'
     else
       'invalid'
     end
   end
 
-  def obstructed?(x_des, y_des)
+  def is_obstructed?(x_des, y_des)
     pieces_in_row = game.pieces.where(x_position: x_des)
     pieces_in_column = game.pieces.where(y_position: y_des)
     # horizontal case
     if move_type(x_des, y_des) == 'horizontal'
       !pieces_in_row.where('x_position > ? AND x_position < ?',
-                           [x_position, x_des].min, [x_position, x_des].max).empty?
+                           [self.x_position, x_des].min, [self.x_position, x_des].max).empty?
     # vertical case
     elsif move_type(x_des, y_des) == 'vertical'
       !pieces_in_column.where('y_position > ? AND y_position < ?',
-                              [y_position, y_des].min, [y_position, y_des].max).empty?
+                              [self.y_position, y_des].min, [self.y_position, y_des].max).empty?
     # diagonal case
     elsif move_type(x_des, y_des) == 'diagonal'
       diagonal_blocker?(x_des, y_des)
     else
-      raise 'Invalid'
+      raise "invalid move" if move_type(x_des, y_des) == :invalid
     end
   end
 
   # determine if user of piece matches current turn
   def user_owns_piece?
-    player_id == game.turn
+    user_id == game.turn
   end
 
   # determine that piece moved
@@ -59,7 +60,7 @@ class Piece < ApplicationRecord
 
   def move_to!(new_x, new_y)
     if destination_obstruction?(new_x, new_y)
-      captured_piece = obstructed?(new_x, new_y)
+      captured_piece = is_obstructed?(new_x, new_y)
       captured_piece.update_attributes(x_position: nil, y_position: nil)
     end
     update_attributes(x_position: new_x, y_position: new_y, moved: true)
@@ -70,13 +71,13 @@ class Piece < ApplicationRecord
   # placeholder for process 'obstruction'
   # using piece owner player_id rather than piece color to validate different owners of pieces
   def captured_move?(x_des, y_des)
-    captured_piece = obstructed?(x_des, y_des)
+    captured_piece = is_obstructed?(x_des, y_des)
     captured_piece && captured_piece.user.id != current_user.id
   end
 
   # placeholder - destination_obstruction your piece
   def destination_obstruction?(x_des, y_des)
-    return false unless captured_move?(x_des, y_des)
+    return false if captured_move?(x_des, y_des)
   end
 
   # determine that move is valid
@@ -86,10 +87,8 @@ class Piece < ApplicationRecord
     return false unless user_owns_piece?
     return false if nil_move?(x_des, y_des)
     return false unless move_on_board?(x_des, y_des)
-    return false if obstructed?(x_des, y_des)
+    return false if is_obstructed?(x_des, y_des)
     return false if destination_obstruction?(x_des, y_des)
-
-    true
   end
 
   def putting_king_in_check?(x_des, y_des)
