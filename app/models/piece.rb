@@ -102,4 +102,5 @@ class Piece < ApplicationRecord
     update_attributes x_position: current_x_pos, y_position: current_y_pos
     false
   end
+
 end

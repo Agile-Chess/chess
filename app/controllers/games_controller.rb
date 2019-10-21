@@ -35,6 +35,13 @@ class GamesController < ApplicationController
     else
       redirect_to game_path(@game)
     end
+    # def assign_pieces
+    @pieces.where(color: 0).each do |p|
+      p.update_attributes(user_id: @game.white_player_id)
+    end
+    @pieces.where(color: 1).each do |p|
+      p.update_attributes(user_id: @game.black_player_id)
+    end
   end
 
   def update

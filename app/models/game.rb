@@ -4,7 +4,7 @@ class Game < ApplicationRecord
   belongs_to :user
 
   after_create :draw_board!
-  after_create :assign_pieces!
+  after_create :set_default_turn!
   BOARD_SIZE = 8
 
   scope :available_black, -> { where(black_player_id: nil) }
@@ -69,16 +69,6 @@ class Game < ApplicationRecord
     
   end
 
-  def assign_pieces!
-    pieces.where(color: 0).each do |p|
-      p.update_attributes(user_id: white_player_id)
-    end
-    pieces.where(color: 1).each do |p|
-      p.update_attributes(user_id: black_player_id)
-    end
-  end  
-
-
   def available_black?
     return black_player_id.nil?
   end
@@ -93,5 +83,9 @@ class Game < ApplicationRecord
     else
       update_attributes(winning_player_id: white_player_id, state: 'forfeit')
     end
+  end
+
+  def set_default_turn!
+    update_attributes(turn: white_player_id)
   end
 end

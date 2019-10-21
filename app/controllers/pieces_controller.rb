@@ -2,8 +2,7 @@
 
 # Pieces controller to manage activities
 class PiecesController < ApplicationController
-  # before_action :find_piece,
-  # before_action :verify_two_players, :verify_player_turn,
+  before_action :verify_your_turn?, only: [:update]
   # before_action :verify_valid_move
   # before_action :require_authorized_for_current_piece, only: [:update]
 
@@ -17,7 +16,6 @@ class PiecesController < ApplicationController
   def update
     @piece = Piece.find(params[:id])
     @game = @piece.game
-    
     if verify_valid_move?
       @piece.update(piece_params)
       respond_to do |format|
@@ -30,15 +28,10 @@ class PiecesController < ApplicationController
         format.json { render json: @piece, moved: false }
       end
     end
-
+    
   end
 
   private
-
-  # def find_piece
-  #   @piece = Piece.find(params[:id])
-  #   @game = @piece.game
-  # end
 
   def verify_valid_move?
     x_position = params[:x_position]
@@ -46,7 +39,6 @@ class PiecesController < ApplicationController
     puts x_position, y_position
     @piece = Piece.find(params[:id])
     @piece.valid_move?(x_position, y_position)
-    # true
   end
 
   def piece_params
@@ -64,4 +56,11 @@ class PiecesController < ApplicationController
 
     render plain: 'unauthorized', status: :unauthorized
   end
+
+  def verify_your_turn?
+    @piece = Piece.find(params[:id])
+    @game = @piece.game
+    @game.turn == current_user.id
+  end
+
 end
