@@ -4,97 +4,64 @@
 class Pawn < Piece
 
   # has piece been previously moved
-  def first_move_pawn?(*)
-    # check if white pawn moved from row 1
-    if y_position == 7 && color == 0 ||
-       # check if black pawn moved from row 7
-       y_position == 2 && color == 1
-    end
+  def first_move_pawn?
+    # check if white pawn moved from row 1 or black from row 7
+    y_position == 7 && color == 0 || y_position == 2 && color == 1
   end
 
   # ensure no forward obstruction
   def no_forward_obstruction?(x_des, y_des)
     pieces_in_row = game.pieces.where(x_position: x_des)
-    pieces_in_column = game.pieces.where(y_position: y_des)    
-    if move_type(x_des, y_des) == 'vertical' &&
-       !pieces_in_column.where('y_position > ? AND y_position < ?',
-                               [self.y_position, y_des].min,
-                               [self.y_position, y_des].max).empty?
-    end
+    pieces_in_column = game.pieces.where(y_position: y_des)   
+    move_type(x_des, y_des) == 'vertical' &&
+      pieces_in_column.where('y_position > ? AND y_position < ?',
+                            [self.y_position, y_des.to_i].min,
+                            [self.y_position, y_des.to_i].max).empty?
   end
-
-  # can pawn move 2 squares forward or obstructed
-  def move_forward_white?(x_des, _y_des)
-    pieces_in_row = game.pieces.where(x_position: x_des)
-    pieces_in_column = game.pieces.where(y_position: y_des)    
-    # check if white pawn is in pos 7 and no obstruction
-    if y_position == 7 && color == 0 &&
-       move_type(x_des, 5) == 'vertical' &&
-       !pieces_in_column.where('y_position > ? AND y_position < ?',
-                               [self.y_position, 5].min,
-                               [self.y_position, 5].max).empty?
-    end
-  end
-
-  # check if black pawn is in pos 2 and no obstruction
-  def move_forward_black?(x_des, _y_des)
-    pieces_in_row = game.pieces.where(x_position: x_des)
-    pieces_in_column = game.pieces.where(y_position: y_des)    
-    # check if black pawn is in pos 1 and no obstruction
-    if y_position == 2 && color == 1 &&
-       move_type(x_des, 4) == 'vertical' &&
-       !pieces_in_column.where('y_position > ? AND y_position < ?',
-                               [self.y_position, 4].min,
-                               [self.y_position, 4].max).empty?
-    end
-  end
-
+ 
   # verify no x move except in capture
   def no_x_move?(x_des)
     (x_des.to_i - x_position) == 0
   end
 
   # can pawn move 2 squares forward or obstructed
-  def move_forward_two?
-    if (move_forward_white? true) ||
-       (move_forward_black? true)
+  def move_forward_two?(x_des, y_des)
+    # Set forward direction based on piece color
+    if y_position == 7
+      direction = 1
+    elsif y_position == 2
+      direction = -1
     end
+
+    # Subtract y_des and y_position, and check equality to 2 or -2 based on direction
+    y_position - y_des.to_i == 2 * direction  && no_forward_obstruction?(x_des, y_des)
   end
 
   # allowed base move for pawn
   def standard_move?(x_des, y_des)
     y_chg = (y_des.to_i - y_position).abs
     x_chg = (x_des.to_i - x_position).abs
-    if ((first_move_pawn? true) && (move_forward_two? true)) ||
-       ((y_chg == 1) && (x_chg == 0))
-    end
+    x_chg == 0 && ( y_chg == 1 ||
+      ( first_move_pawn? && move_forward_two?(x_des, y_des) ) )
   end
 
   # capture move for pawn
   def pawn_capture_move?(x_des, y_des)
     y_chg = (y_des.to_i - y_position).abs
     x_chg = (x_des.to_i - x_position).abs
-    if move_type(x_des, y_des) == 'diagonal' &&
-       (x_chg && y_chg == 1) &&
-       (captured_move? true)
-    end
+    move_type(x_des, y_des) == 'diagonal' && (x_chg && y_chg == 1)
   end
 
   def en_passant_available?(y_des)
     y_chg = (y_des - y_position)
-    (if (first_move_pawn true) && (y_chg.positive && y_chg < 3) &&
-     (move_forward_two? true); return true; end)
+    first_move_pawn? && y_chg > 0 && y_chg < 3 && move_forward_two?
   end
 
   def en_passant_capture?(x_des, y_des)
     y_chg = (y_des - y_position).abs
     x_chg = (x_des - x_position).abs
-    if move_type(x_des, y_des) == 'diagonal' &&
-       (x_chg && y_chg == 1) &&
-       (captured_move? true)
-    elsif en_passant_available? == true
-      (captured_move? true)
-    end
+    (move_type(x_des, y_des) == 'diagonal' && y_chg == 1 && pawn_capture_move? ) ||
+      ( en_passant_available? && pawn_capture_move? )
   end
 
   # placeholder for promotion move option
@@ -104,10 +71,7 @@ class Pawn < Piece
 
   # test for valid move of piece
   def valid_move?(x_des, y_des)
-    if no_x_move?(x_des) &&
-       standard_move?(x_des, y_des) ||
-       promotion_move?(x_des, y_des) ||
-       pawn_capture_move?(x_des, y_des)
-    end
+    ( no_x_move?(x_des) && standard_move?(x_des, y_des) ) ||
+      ( promotion_move?(x_des, y_des) || pawn_capture_move?(x_des, y_des) )
   end
 end
